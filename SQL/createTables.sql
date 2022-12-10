@@ -22,7 +22,7 @@ CREATE OR REPLACE TABLE subcategories (
 
 CREATE OR REPLACE TABLE products (
     id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(80),
+    name VARCHAR(100),
     subcategories_id TINYINT UNSIGNED DEFAULT 0,
     avgprice_yesterday FLOAT(4,2) UNSIGNED NOT NULL DEFAULT 0,
     avgprice_lastweek FLOAT(4,2) UNSIGNED NOT NULL DEFAULT 0,
@@ -35,7 +35,7 @@ CREATE OR REPLACE TABLE users (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username VARCHAR (25) NOT NULL, 
     passwd VARCHAR (25) NOT NULL,
-    email VARCHAR (25) NOT NULL,
+    email VARCHAR (40) NOT NULL,
     sum_score INT NOT NULL DEFAULT 0,
     sum_tokens INT NOT NULL  DEFAULT 0,
     monthly_score INT NOT NULL DEFAULT 0,
@@ -48,7 +48,7 @@ CREATE OR REPLACE TABLE admins (
     id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     username VARCHAR(25) NOT NULL,
     passwd VARCHAR(25) NOT NULL,
-    email VARCHAR(25) NOT NULL,
+    email VARCHAR(40) NOT NULL,
     users_id INT UNSIGNED NOT NULL,
     PRIMARY KEY ( id ),
     UNIQUE (email),
@@ -67,6 +67,7 @@ CREATE OR REPLACE TABLE sales (
     likes_num INT UNSIGNED NOT NULL,
     dislikes_num INT UNSIGNED NOT NULL,
     user_suggested INT UNSIGNED,
+    criteria_ok BOOLEAN,
     PRIMARY KEY ( id ),
     CONSTRAINT sale_in_store FOREIGN KEY (store_id) REFERENCES stores(id)
     ON UPDATE CASCADE ON DELETE CASCADE,
