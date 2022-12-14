@@ -19,6 +19,8 @@ import json
 import random
 import mariadb
 from mariadb.constants import *
+from datetime import date , timedelta
+
 
 # The needed jsons will not be parametrized.
 product_categories_json = "product_categories.json"
@@ -52,7 +54,7 @@ def mariadb_executemany_inserts_query( table_name, data, cur ):
         print(f"Error: {e}")
 
 def initialize_cat_subcat_products ( product_categories_json ):
-    with open( product_categories_json,'r', encoding="utf8" ) as product_categories :
+    with open( product_categories_json, 'r', encoding="utf-8" ) as product_categories :
         data = json.loads( product_categories.read() )
         
         # Initialize categories, subcategories and product tables
@@ -75,7 +77,7 @@ def initialize_cat_subcat_products ( product_categories_json ):
         return( (catList, subcatList, productList) )
 
 def initialize_users ( users_json ):
-    with open( users_json, 'r' ) as users:
+    with open( users_json, 'r', encoding="utf-8" ) as users:
         data = json.loads( users.read() )
         usersList = []
         de = INDICATOR.DEFAULT
@@ -84,14 +86,15 @@ def initialize_users ( users_json ):
         return usersList 
 
 def initialize_sales ( sales_json, users_count ):
-    with open( sales_json, 'r', encoding="utf8" ) as sales:
+    with open( sales_json, 'r', encoding="utf-8" ) as sales:
         data = json.loads( sales.read() )
         salesList = []
         likesList = []
         dislikesList = []
         for sale in data:
             salesList.append( (sale["id"], sale["store_id"], sale["product_id"], sale["price"], sale["stock"], \
-            sale["active"], sale["date_created"], sale["likes"], sale["dislikes"], sale["user_suggested"]) )
+            sale["active"], (date.today() - timedelta(days=random.randrange(0,7))).strftime('%Y-%m-%d'), \
+            sale["likes"], sale["dislikes"], sale["user_suggested"], INDICATOR.DEFAULT ) )
             for i in range(0,sale["likes"]):
                 likesList.append( (INDICATOR.NULL,sale["id"],random.randrange(1,users_count)) )
             for i in range(0,sale["dislikes"]):
@@ -106,7 +109,7 @@ def initialize_stores_from_overpass_turbo_query ( stores_json ):
     # out body; // print results for query part for: “supermarket”
     # >;
     # out skel qt;
-    with open( stores_json, "r", encoding="utf8" ) as stores_from_overpass_query, open( "database_stores.json", "w" , encoding="utf8") as database_stores:
+    with open( stores_json, "r", encoding="utf-8" ) as stores_from_overpass_query, open( "database_stores.json", "w" ) as database_stores:
         data = json.loads( stores_from_overpass_query.read() )
         data = data.get("elements")
         regional_markets = []
@@ -120,7 +123,7 @@ def initialize_stores_from_overpass_turbo_query ( stores_json ):
 
 def main():
     # Create the database connection
-    conn = establish_localhost_mariadb_connection( "root", "maria", "localhost","web_2023" )
+    conn = establish_localhost_mariadb_connection( "sf", "sf", "localhost","web_2022" )
     cur = conn.cursor()
 
     users = False
