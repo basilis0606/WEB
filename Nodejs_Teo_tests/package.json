@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "mariadb": "^3.0.2"
+  },
+  "name": "web",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "CEID Web_2022 project",
+  "main": "./jsModules/app.mjs",
+  "scripts": {
+    "test": "echo \" Error no test specified\" && exit 1 "
+  },
+  "keywords": [],
+  "author": "Sfikas",
+  "license": "ISC"
+}
