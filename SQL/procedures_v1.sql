@@ -19,7 +19,7 @@ CREATE OR REPLACE PROCEDURE update_avgprices()
         SELECT product_id, AVG(price)
         FROM sales
         USE INDEX (sale_creation_date)
-        WHERE DATEDIFF(CURDATE(), date_created) < 7
+        WHERE DATEDIFF(CURDATE(), date_created) < 8
         GROUP BY product_id;
         
         DECLARE CONTINUE HANDLER FOR NOT FOUND SET done=1;
@@ -77,7 +77,7 @@ CREATE OR REPLACE PROCEDURE update_criteriaOK()
         -- check if the criteria are met for every sale
         REPEAT 
             FETCH sales2calc INTO cur_sid, cur_prid, cur_price, cur_avgy, cur_avglw;
-            IF (cur_price < cur_avgy - 20*cur_avgy/100 OR cur_price<cur_avglw - 20*cur_avglw/100) THEN
+            IF (cur_price < cur_avgy - 20*cur_avgy/100 OR cur_price < cur_avglw - 20*cur_avglw/100) THEN
                 UPDATE sales
                 SET criteria_ok=1
                 WHERE id = cur_sid;
@@ -123,8 +123,7 @@ CREATE OR REPLACE PROCEDURE check_activity()
             IF (curcriteria = 1) THEN
                 -- MORE THAN 7 DAYS BUT CRITERIA OK! --> update date created so that sale lasts 1 more week
                 UPDATE sales
-                SET date_created = CURDATE(),
-                    criteria_ok = 0
+                SET date_created = CURDATE()
                 WHERE id = sid;
             ELSE 
                 UPDATE sales 
@@ -157,7 +156,7 @@ CREATE OR REPLACE EVENT call_daily_sequence
 -- @block monthly_user_data
 CREATE OR REPLACE PROCEDURE clear_monthly_user_data()
 BEGIN
-    UPDATE users SET monthly_score=0 , monthly_tokens=100;
+    UPDATE users SET monthly_score=0;
 END;
 
 CREATE OR REPLACE EVENT call_clear_monthly_user_data_procedure_once_a_month
