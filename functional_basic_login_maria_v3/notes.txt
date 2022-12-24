@@ -1,0 +1,1 @@
+USERANAMES NEED TO BE UNIQUE!!! --> search password to compare based solely on username.
