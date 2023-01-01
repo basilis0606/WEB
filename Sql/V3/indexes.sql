@@ -34,3 +34,11 @@ NOWAIT;
 CREATE OR REPLACE INDEX store_has_sales USING BTREE
 ON stores(sale_exists)
 NOWAIT;
+
+CREATE OR REPLACE INDEX user_names USING BTREE
+ON users(username)
+NOWAIT;
+
+CREATE OR REPLACE INDEX user_emails USING BTREE
+ON users(email)
+NOWAIT;
