@@ -35,10 +35,10 @@ export class Mariadb {
 				let result = await this.conn.query(query);
 				return result;
 			} catch (error) {
-				console.error("Query returned with error: ", error);
+				console.error("Aborted: Query returned with error: ", error);
 			}
 		} catch (error) {
-			console.error("Error starting a transaction: ", error);
+			console.error("Aborted: Error starting a transaction: ", error);
 		}
 	}
 }
