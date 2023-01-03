@@ -67,7 +67,7 @@ CREATE OR REPLACE TABLE sales (
     product_id SMALLINT UNSIGNED NOT NULL,
     price FLOAT(4,2) UNSIGNED NOT NULL DEFAULT 0,
     stock BOOLEAN DEFAULT 1,
-    active BOOLEAN DEFAULT 0,
+    active BOOLEAN DEFAULT 1,
     date_created DATE NOT NULL,
     likes_num INT UNSIGNED NOT NULL,
     dislikes_num INT UNSIGNED NOT NULL,
