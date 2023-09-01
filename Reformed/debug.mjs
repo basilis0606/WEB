@@ -1,20 +1,9 @@
 'use strict';
 
-import { registerUser } from './dbToNode.mjs';
-import bcrypt from 'bcrypt';
+import * as url from 'url';
+import { Mariadb } from "./mariadb.mjs";
+const mariadb = await Mariadb.createConnection();
 
 
-registerUser('maria', 'maria.pap@gmail.com', 'Maria2001').then((result) => {
-  console.log(result);
-  process.exit(0);
-}).catch((error) => {
-  console.log(error);
-  process.exit(0);
-});
-
-// stop the programe for running indefinitely
-// After the promise is resolved the process will exit
-
-
-
-
+const __basename = url.fileURLToPath(new URL('..', import.meta.url));
+console.log(__basename);

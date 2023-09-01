@@ -1,26 +1,29 @@
 "use strict";
 
 // Import the needed modules
-import path from 'path';
 import * as url from 'url'
 import express from 'express';
 import session from 'express-session';
 
 // Import the needed routes
-import { storesToGeoJson } from './dbToNode.mjs';
 import { routerLogin } from './routes/login.mjs';
+import { routerRegister } from './routes/register.mjs';
+import { routerUsers } from './routes/users.mjs';
 import { routerStores } from './routes/stores.mjs';
 import { routerCategories } from './routes/categories.mjs';
-import { routerRegister } from './routes/register.mjs';
 
+// Import the needed functions
+import { storesToGeoJson, tableInfo } from './dbToNode.mjs';
 
-/*================================ Misc ================================ */
-// Query the needed jsons
-export let stores = await storesToGeoJson();
+/*=============================== Misc =============================== */
 
 // Get the absolut file path
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-const __basename = path.join(__dirname, '..');
+export const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+/*======================= Load Static Resources ======================= */
+
+export let stores = storesToGeoJson();
+export let categories = tableInfo('categories', ['*']);
 
 /*========================= Custom Middlewear ========================= */
 
@@ -28,13 +31,16 @@ const __basename = path.join(__dirname, '..');
 export function auth(req, res, next) {
 	if (req.session.userId) {
 		// Update the cookie's max age to extend the session validity
-    res.cookie("authToken", req.sessionID, {maxAge: 60000,
-			sameSite: "None", secure: false});
+    res.cookie("authToken", req.sessionID, {
+			maxAge: 60000,
+			sameSite: "None",
+			secure: false,
+		});
 
 		next(); // User is authenticated, continue to the next middleware/route
 	} else {
     res.status(401) // User is not authenticated,
-		res.redirect('/'); // redirect to the login page
+		res.redirect('/login.html'); // redirect to the login page
 	}
 }
 
@@ -134,10 +140,18 @@ server.listen(port, () => {
 // the first will be in use. So it is a better practice to place
 // The most common handler in the beggining.
 
+// Send login page
+server.get('/', (req, res) => {
+	res.redirect('/login.html');
+});
+
 server.use('/api/login', routerLogin);
 server.use('/api/register',routerRegister);
-server.use('/api/stores', routerStores);
-server.use('/api/categories', routerCategories);
+
+server.use('/api/stores', auth, routerStores);
+server.use('/api/categories', auth, routerCategories);
+
+server.use('/users/', auth, routerUsers);
 
 // The use function on the server will be executed
 // For every request, if a server.use call is used

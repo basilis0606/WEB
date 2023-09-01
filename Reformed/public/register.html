@@ -5,30 +5,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>haggle - Register</title>
-  <!-- MDB icon -->
-  <link rel="icon" href="img/location-dot.svg" type="image/x-icon" />
+  <!-- Title icon -->
+  <link rel="icon" href="/img/location-dot.svg" type="image/x-icon" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <!-- Google Fonts Roboto -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
   <!-- MDB -->
-  <link rel="stylesheet" href="css/mdb.min.css" />
+  <link rel="stylesheet" href="/css/mdb.min.css" />
 </head>
 
 <body>
   <!-- First Popper.js, then Bootstrap JS. In case Jquery is used It needs to be loaded first-->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <section class="vh-100" style="background-color: #f8d595;">
+  <section class="vh-100" style="background-color: #e2e5c5;">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-10">
           <div class="card" style="border-radius: 1rem;">
             <div class="row g-0">
               <div class="col-md-6 col-lg-5 d-none d-md-block">
-                <img src="img/map.webp" alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+                <div class="background-image-container"
+                  style="background-image: url('img/map.webp'); background-size: cover; background-position: center center; width: 100%; height: 100%; border-radius: 1rem 0 0 1rem;">
+                </div>
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body p-4 p-lg-5 text-black">
@@ -72,7 +72,7 @@
                     </div>
 
                     <p class="text-center text-muted mt-5 mb-0">Have already an account?
-                      <a href="index.html" fw-bold text-body style="color: #393f81;"><u>Login here</u></a>
+                      <a href="/login.html" fw-bold text-body style="color: #393f81;"><u>Login here</u></a>
                     </p>
 
                   </form>
@@ -86,11 +86,15 @@
     </div>
   </section>
 
+  <!-- MDB -->
+  <script type="text/javascript" src="/js/mdb.min.js"></script>
+
+  <!-- Custom scripts -->
   <script type="text/javascript">
     // regex of email:
     const email_regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     // regex of password: at least 8 letters, 1 uppercase, 1 number:
-    const password_regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
+    const password_regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,19}$/gm;
 
     document.addEventListener("DOMContentLoaded", function () {
       const registerButton = document.getElementById("register_button");
@@ -109,16 +113,15 @@
 
         if (!email_regex.test(emailInput.value)) {
           alert("Please enter a valid email address.");
-          
+
           // Clear the email field
           emailInput.value = "";
           return;
         }
 
         if (!password_regex.test(passwordInput.value)) {
-          alert("Please enter a valid password. Password must \
-          contain at least 8 characters, 1 uppercase letter and 1 number.");
-          
+          alert("Please provide a valid password. Password must contain at least 8 characters and an uppercase letter, a number and a special character.");
+
           // Clear the password fields
           passwordInput.value = "";
           password2Input.value = "";
@@ -180,7 +183,7 @@
               console.log('Registration successful');
               alert('Registration successful, please login to continue.');
               // Redirected to a success page
-              window.location.href = '/index.html';
+              window.location.href = '/login.html';
             } else {
               // Display error message to the user
               console.error('Error:', result.message);
@@ -208,10 +211,6 @@
     });
   </script>
 
-  <!-- MDB -->
-  <script type="text/javascript" src="js/mdb.min.js"></script>
-  <!-- Custom scripts -->
-  <script type="text/javascript"></script>
 </body>
 
 </html>
