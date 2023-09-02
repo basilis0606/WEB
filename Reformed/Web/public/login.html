@@ -124,7 +124,10 @@
               console.log('Login successful');
               // Redirected to the users homepage:
               window.location.href = '/users/homepage.html';
-            } else {
+            } else if (result.admin == true){
+              console.log('Redirecting to Admin Home Page');
+              window.location.href = '/users/admin_main.html';
+            }else {
               // Display error message to the user
               console.error('Error:', result.message);
               alert(result.message);

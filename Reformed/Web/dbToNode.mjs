@@ -34,6 +34,22 @@ export async function validateLogin(user, password, type) {
 	}
 }
 
+export async function isAdmin(user_id){
+	let adminquery = `SELECT id FROM admins WHERE users_id= ?;`; 
+	try {
+  		const answer = await mariadb.paramQuery(adminquery, [user_id]);
+		if (answer.length > 0) {
+			return { admin_access: true};
+		}
+		else {
+			return { admin_access: false };
+		}
+	}catch (error){
+		console.error('Error while looking for admin');
+		return { admin_access: false };
+	}
+
+}
 /*================================ Register ================================ */
 
 export async function registerUser(username, email, password) {

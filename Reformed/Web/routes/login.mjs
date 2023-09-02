@@ -1,7 +1,7 @@
 'use strict';
 
 import express from 'express';
-import { validateLogin } from '../dbToNode.mjs';
+import { validateLogin, isAdmin } from '../dbToNode.mjs';
 
 export const routerLogin = express.Router();
 
@@ -40,7 +40,20 @@ routerLogin.post('/', (req, res) => {
         sameSite: "None",
         secure: false,
       });
-      res.status(200).json({ message: 'Login successful'});
+      
+      //Check if user is admin
+      let admin = isAdmin(result.userId);
+      admin.then((result2) => {
+        if (result2.admin_access){
+          req.session.adminpriv = true;
+          //console.log("adminpriv variable in session: "+req.session.adminpriv);
+          res.status(200).json({message: ' ', admin: true});
+        }
+        else {
+          req.session.adminpriv = false;
+          res.status(200).json({ message: 'Login successful'});
+        }
+      })
     }
     else {
       res.status(401).json({ message: result.message });

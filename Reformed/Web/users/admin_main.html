@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en" style="position: relative;height: 814px;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>web2023_admin_productdata</title>
+    <link rel="stylesheet" href="/adm_assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/adm_assets/css/Acme.css">
+    <link rel="stylesheet" href="/adm_assets/css/Actor.css">
+    <link rel="stylesheet" href="/adm_assets/css/Akaya%20Telivigala.css">
+    <link rel="stylesheet" href="/adm_assets/css/Akshar.css">
+    <link rel="stylesheet" href="/adm_assets/css/Alata.css">
+    <link rel="stylesheet" href="/adm_assets/css/Alatsi.css">
+    <link rel="stylesheet" href="/adm_assets/css/Navbar-With-Button-icons.css">
+</head>
+
+<body style="height: 814px;position: relative;margin: 0px 0px 0px;width: 1277px;background: url(&quot;/adm_assets/img/white%20background.jpg&quot;) no-repeat;background-size: auto;"><img style="margin: 10px 10px;width: 64px;height: 64px;position: relative;" width="100" height="80" src="/adm_assets/img/8033099971580816655-128.png"><button class="btn btn-primary" id="profilesettings_button" type="button" style="display: grid;margin: -60px 1100px;width: 150px;height: 38px;text-align: center;font-family: Alata, sans-serif;position: relative;">Profile Settings</button>
+    <h1 style="width: 320px;display: inline-block;margin: 13px 80px 8px;font-size: 40px;position: relative;">Welcome Admin!</h1>
+    <div style="width: 1191px;margin: 20px -20px 20px 20px;margin-right: 42px;padding-right: 0px;padding-left: 32px;">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation" id="products_tab" style="width: 150px;height: 60px;margin: 0px 0px 0px 10px;"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1" style="border-top-left-radius: 4px;border-top-right-radius: 4px;border-bottom-right-radius: 4px;border-bottom-left-radius: 4px;margin: 0px;background: url(&quot;/adm_assets/img/14957230881678785316-128.png&quot;) center / contain no-repeat, transparent;height: 60px;"></a></li>
+            <li class="nav-item" role="presentation" id="categories_tab" style="width: 150px;height: 60px;margin: 0px 0px 0px 10px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2" style="height: 60px;background: url(&quot;/adm_assets/img/categories.png&quot;) center / contain no-repeat;"></a></li>
+            <li class="nav-item" role="presentation" id="stores_tab" style="margin: 0px 0px 0px 10px;width: 150px;height: 60px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3" style="height: 60px;background: url(&quot;/adm_assets/img/8015517251578289043-128.png&quot;) center / contain no-repeat;"></a></li>
+            <li class="nav-item" role="presentation" id="stats_tab" style="margin: 0px 0px 0px 10px;width: 150px;height: 60px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4" style="height: 60px;background: url(&quot;/adm_assets/img/544378381639220039-128.png&quot;) center / contain no-repeat;"></a></li>
+            <li class="nav-item" role="presentation" id="leaders_tab" style="margin: 0px 0px 0px 10px;width: 150px;height: 60px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-5" style="height: 60px;background: url(&quot;/adm_assets/img/leaderboard2.png&quot;) center / contain no-repeat;"></a></li>
+            <li class="nav-item" role="presentation" id="chmode_tab" style="margin: 0px 0px 0px 10px;width: 150px;height: 60px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-6" style="height: 60px;margin: 0px;background: url(&quot;/adm_assets/img/781752361582955604-128.png&quot;) center / contain no-repeat;"></a></li>
+            <li class="nav-item" role="presentation" id="logout_tab" style="margin: 0px 0px 0px 10px;width: 150px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-7" style="height: 60px;background: url(&quot;/adm_assets/img/logout2.png&quot;) center / contain no-repeat;"></a></li>
+        </ul>
+        <div class="tab-content" style="margin: 10px 0px 0px 0px;">
+            <div class="tab-pane active" role="tabpanel" id="tab-1">
+                <div class="table-responsive" id="products_table" style="opacity: 1;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 85px;position: relative;">ID</th>
+                                <th style="width: 200px;position: relative;">NAME</th>
+                                <th style="width: 100px;position: relative;">SUBCATEGORY</th>
+                                <th style="width: 100px;position: relative;">CATEGORY</th>
+                                <th style="width: 150px;position: relative;">AVG PRICE (YESTERDAY)</th>
+                                <th style="width: 150px;position: relative;">AVG PRICE (LAST WEEK)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products_tbody">
+                            <tr style="position: relative;">
+                                <td style="position: relative;">Cell 1</td>
+                                <td style="position: relative;">Cell 1</td>
+                                <td style="position: relative;">Cell 1</td>
+                                <td style="position: relative;">Cell 1</td>
+                                <td style="position: relative;">Cell 1</td>
+                                <td style="position: relative;">Cell 2</td>
+                            </tr>
+                            <tr style="position: relative;">
+                                <td style="position: relative;">Cell 3</td>
+                                <td style="position: relative;">Cell 3</td>
+                                <td style="position: relative;">Cell 3</td>
+                                <td style="position: relative;">Cell 3</td>
+                                <td style="position: relative;">Cell 3</td>
+                                <td style="position: relative;">Cell 4</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="tab-2" style="opacity: 1;">
+                <p>Content for tab 2.</p>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="tab-3">
+                <p>Content for tab 3.</p>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="tab-4">
+                <p>Content for tab 4.</p>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="tab-5">
+                <p>Content for tab 5.</p>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="tab-6">
+                <p>Content for tab 6.</p>
+            </div>
+            <div class="tab-pane" role="tabpanel" id="tab-7">
+                <p>Content for tab 7.</p>
+            </div>
+        </div>
+    </div>
+    <script src="/adm_assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+<!-- Custom scripts -->
+<script type="text/javascript">
+    //variable initialization
+    let fetched_products = false;
+    let fetched_stores = false;
+    let fetched_categories = false;
+    let fetched_stats = false;
+    let fetched_leaderboard = false;
+    let user_mode = false;
+
+    //------------------ FETCHES ----------------------//
+    async function fetchAPI(url, method, data = {}) {
+            const requestOptions = {
+                method: method,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+            if (method !== "GET") {
+                requestOptions.body = JSON.stringify(data);
+            }
+            return await fetch(url, requestOptions)
+                .then(response => response.json())
+                .catch(error => {
+                    console.error(error);
+                    throw new Error('Something went wrong. Please try again later.');
+                });
+        }
+
+    async function bringProducts(){
+        return fetchAPI('/admin/products', "GET");
+    }
+
+    //---------- Show Tables Functions ---------------//
+
+    //------------- Event Listeners -------------------//
+    function initializeEventListeners(){
+        document.getElementById
+    }
+    //show different tables
+   
+    //-------------- Execution Logic ------------------//
+    if (fetched_products==false) {
+        //bring JSON file
+        fetchAPI('/admin/products', "GET")
+        .then(response => response.json())
+        .then(data=> {
+            //get the table body to be filled
+            const prodtable = document.getElementById("products_tbody");
+            //clear any existing rows
+            prodtable.innerHTML='';
+            //iterate json file, convert items to rows and append them to the table
+            data.products.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${item.id}</td>
+                <td>${item.category}</td>
+                <td>${item.subcategory}</td>
+            `;
+            prodtable.appendChild(row);
+            });
+        })
+        .catch(error => colsole.error('Error fetching JSON:', error));
+        /*
+            //Construct the html table rows using the JSON data
+            const product_tableRows = data.products.map((item => `
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.category}</td>
+                <td>${item.subcategory}</td>
+            </tr>
+            
+            `).join(''));
+            //fill the table with our table rows
+            
+            prodtable.innerHTML = product_tableRows;
+        })
+        */
+        fetched_products = true;
+
+        
+
+    }
+
+
+
+    
+    
+
+
+</script>
+</body>
