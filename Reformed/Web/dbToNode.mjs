@@ -50,6 +50,50 @@ export async function isAdmin(user_id){
 	}
 
 }
+
+/*================================ Update ================================ */
+
+export async function updateCredentials(userId, newUsername, newPassword) {
+    try {
+        // Check if new username or email already exist
+        const userExistQuery = `SELECT COUNT(*) AS count FROM users WHERE ((username = ? OR email = ?) AND id != ?);`;
+        const userExistResult = await mariadb.paramQuery(userExistQuery, [newUsername, newUsername, userId]);
+
+        if (userExistResult[0].count > 0) {
+            return { success: false, message: 'Username or email already in use' };
+        }
+
+        // If new credentials are valid, update the user's credentials
+        let updateCredentialsQuery = 'UPDATE users SET ';
+        const params = [];
+
+        if (newUsername) {
+            updateCredentialsQuery += 'username = ?, ';
+            params.push(newUsername);
+        }
+
+        if (newPassword) {
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            updateCredentialsQuery += 'passwd = ?, ';
+            params.push(hashedPassword);
+        }
+
+        updateCredentialsQuery = updateCredentialsQuery.slice(0, -2);  // Remove the last comma and space
+        updateCredentialsQuery += ' WHERE id = ?;';
+        params.push(userId);
+
+        await mariadb.paramQuery(updateCredentialsQuery, params);
+
+        // Commit the changes
+        await mariadb.commit();
+
+        return { success: true };
+    } catch (error) {
+        console.error('Error updating credentials:', error);
+        return { success: false, message: 'An internal error occurred' };
+    }
+}
+
 /*================================ Register ================================ */
 
 export async function registerUser(username, email, password) {
