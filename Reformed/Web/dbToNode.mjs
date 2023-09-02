@@ -94,6 +94,24 @@ export async function updateCredentials(userId, newUsername, newPassword) {
     }
 }
 
+/*================================ Profile ================================ */
+
+export async function getUserInfo(userId) {
+    try {
+        const query = `SELECT username, email FROM users WHERE id = ?;`;
+        const result = await mariadb.paramQuery(query, [userId]);
+
+        if (result.length > 0) {
+            return { success: true, userInfo: result[0] };
+        } else {
+            return { success: false, message: 'User not found.' };
+        }
+    } catch (error) {
+        console.error('Error getting user info:', error);
+        return { success: false, message: 'An internal error occurred.' };
+    }
+}
+
 /*================================ Register ================================ */
 
 export async function registerUser(username, email, password) {
