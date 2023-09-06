@@ -117,7 +117,13 @@
             console.log(err);
         });
 
-        const changeduserName = fetchAPI('/users/change-Credentials', 'POST', { newUsername: 'newUsername', currentPassword: 'currentPassword' });
+        const changeduserName = fetchAPI('/users/update-credentials', 'POST', { newUsername: 'mpill', currentPassword: 'Basilis06!' });
+
+        changeduserName.then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err);
+        });
 
 
         // function toggleHistory() {

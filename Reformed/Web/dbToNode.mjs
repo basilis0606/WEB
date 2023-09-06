@@ -53,9 +53,9 @@ export async function isAdmin(user_id){
 
 /*================================ Update ================================ */
 
-export async function updateCredentials(userId, newUsername, newPassword) {
+export async function updateCredentials(userId, newUsername=null, hashedNewPassword=null) {
     try {
-        // Check if new username or email already exist
+        // Check if new username or email already exists
         const userExistQuery = `SELECT COUNT(*) AS count FROM users WHERE ((username = ? OR email = ?) AND id != ?);`;
         const userExistResult = await mariadb.paramQuery(userExistQuery, [newUsername, newUsername, userId]);
 
@@ -72,10 +72,9 @@ export async function updateCredentials(userId, newUsername, newPassword) {
             params.push(newUsername);
         }
 
-        if (newPassword) {
-            const hashedPassword = await bcrypt.hash(newPassword, 10);
+        if (hashedNewPassword) {
             updateCredentialsQuery += 'passwd = ?, ';
-            params.push(hashedPassword);
+            params.push(hashedNewPassword);
         }
 
         updateCredentialsQuery = updateCredentialsQuery.slice(0, -2);  // Remove the last comma and space
@@ -93,6 +92,7 @@ export async function updateCredentials(userId, newUsername, newPassword) {
         return { success: false, message: 'An internal error occurred' };
     }
 }
+
 
 /*================================ Profile ================================ */
 

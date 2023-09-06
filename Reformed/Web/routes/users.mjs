@@ -1,5 +1,6 @@
 'use strict';
 
+import bcrypt from 'bcrypt';
 import path from 'path';
 import * as url from 'url';
 import express from 'express';
@@ -32,11 +33,14 @@ routerUsers.get('/info', async (req, res) => {
   });
 });
 
-routerUsers.post('/update-credentials', async (req, res) => {
+routerUsers.put('/update-credentials', async (req, res) => {
   try {
-    let userId = req.session.userId;
+    let userId = req.session.userId;  
+    console.log(userId);
     const { newUsername, newPassword, currentPassword } = req.body;
+    console.log(newUsername, newPassword, currentPassword);
     const currentUserInfo = await getUserInfo(userId);
+    console.log(currentUserInfo);
 
     // Check new password against the regex if it's provided
     if (newPassword && !password_regex.test(newPassword)) {
@@ -45,6 +49,7 @@ routerUsers.post('/update-credentials', async (req, res) => {
       });
     }
 
+    // Check the currentPassword against stored password
     const isMatch = await bcrypt.compare(currentPassword, currentUserInfo.password);
     if (!isMatch) {
       return res.status(400).json({ error: 'Incorrect current password' });
@@ -61,65 +66,8 @@ routerUsers.post('/update-credentials', async (req, res) => {
     res.status(200).json({ message: 'Credentials updated successfully' });
 
   } catch (error) {
-    console.error(error);
+    console.error('Error in /update-credentials:', error.message, error.stack);
     res.status(500).json({ error: 'An error occurred' });
   }
 });
 
-// Update the users Credentials
-routerUsers.put('/updateCredentials', async (req, res) => {
-  const { newUsername, newPassword } = req.body;
-
-  // Check new password against the regex if it's provided
-  if (newPassword && !password_regex.test(newPassword)) {
-    return res.status(400).json({
-      message: 'Please provide a valid password. Password must contain at least 8 characters and an uppercase letter, a number and a special character.'
-    });
-  }
-
-  const updatedUser = ud
-
-
-});
-
-
-routerUsers.post('/update-username', async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    const { newUsername, currentPassword } = req.body;
-
-    const currentUserInfo = await getUserInfo(userId);
-    const isMatch = await bcrypt.compare(currentPassword, currentUserInfo.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'Incorrect current password' });
-    }
-
-    const result = await updateCredentials(userId, newUsername, currentUserInfo.password);
-    if (!result) {
-      return res.status(400).json({ error: 'Failed to update username' });
-    }
-
-    res.status(200).json({ message: 'Username updated successfully' });
-    console.log(req.body);
-
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred' });
-  }
-});
-
-routerUsers.get('/get-username', async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    const userInfo = await getUserInfo(userId); // Assuming `getUserInfo` is a function that fetches user details from your database.
-
-    if (!userInfo) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    return res.status(200).json({ username: userInfo.username });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'An error occurred' });
-  }
-});
