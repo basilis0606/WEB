@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Profile Display Content -->
+    <div class="container mt-4">
+        <h2>User Profile</h2>
+        <div class="card mt-4">
+            <div class="card-body">
+                <p><strong>Username:</strong> <span id="usernameDisplay"></span></p>
+                <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
+                <p><strong>Total Score:</strong> <span id="totalScoreDisplay"></span></p>
+                <p><strong>Monthly Score:</strong> <span id="monthlyScoreDisplay"></span></p>
+                <p><strong>Total Tokens:</strong> <span id="totalTokensDisplay"></span></p>
+                <p><strong>Monthly Tokens:</strong> <span id="monthlyTokensDisplay"></span></p>
+            </div>
+        </div>
+        <button id="viewHistoryBtn" class="btn btn-info mt-2" onclick="toggleHistory()">View History</button>
+    </div>
+
+    <!-- Profile Edit Component -->
+    <div class="container mt-4">
+        <h2>Edit Profile</h2>
+        <form id="editProfileForm">
+            <div class="mb-3">
+                <label for="usernameInput" class="form-label">Username</label>
+                <input type="text" class="form-control" id="usernameInput">
+            </div>
+            <div class="mb-3">
+                <label for="currentPasswordInput" class="form-label">Current Password</label>
+                <input type="password" class="form-control" id="currentPasswordInput">
+            </div>
+            <div class="mb-3">
+                <label for="newPasswordInput" class="form-label">New Password</label>
+                <input type="password" class="form-control" id="newPasswordInput">
+            </div>
+            <div class="mb-3">
+                <label for="confirmNewPasswordInput" class="form-label">Confirm New Password</label>
+                <input type="password" class="form-control" id="confirmNewPasswordInput">
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+    <!-- History Component (Initially hidden) -->
+    <div class="container mt-4" id="historyComponent" style="display: none;">
+        <h2>Sales/Offer History</h2>
+        <table class="table">
+            <!-- Dynamically populate rows using JavaScript -->
+        </table>
+        <h2>Likes/Dislikes History</h2>
+        <table class="table">
+            <!-- Dynamically populate rows using JavaScript -->
+        </table>
+    </div>
+
+    <!-- Feedback mechanism - Initially hidden (can be toggled via JS) -->
+    <div class="alert alert-success" role="alert" style="display: none;" id="successAlert">
+        Profile updated successfully!
+    </div>
+
+    <div class="alert alert-danger" role="alert" style="display: none;" id="errorAlert">
+        Oops! Something went wrong.
+    </div>
+
+    <!-- Change Username -->
+    <div class="container mt-4">
+        <h2>Change Username</h2>
+        <form id="change-username-form">
+            <label for="newUsername">New Username:</label>
+            <input type="text" id="newUsername" required>
+
+            <label for="currentPassword">Current Password:</label>
+            <input type="password" id="currentPassword" required>
+
+            <input type="submit" value="Change Username">
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        async function fetchAPI(url, method, data = {}) {
+            const requestOptions = {
+                method: method,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+            if (method !== "GET") {
+                requestOptions.body = JSON.stringify(data);
+            }
+            return await fetch(url, requestOptions)
+                .then(response => response.json())
+                .catch(error => {
+                    console.error(error);
+                    throw new Error('Something went wrong. Please try again later.');
+                });
+        }
+
+        const userInfo = fetchAPI('/users/info', 'GET');
+        
+        userInfo.then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err);
+        });
+
+        const changeduserName = fetchAPI('/users/change-Credentials', 'POST', { newUsername: 'newUsername', currentPassword: 'currentPassword' });
+
+
+        // function toggleHistory() {
+        //     const historyComponent = document.getElementById('historyComponent');
+        //     if (historyComponent.style.display === "none") {
+        //         historyComponent.style.display = "block";
+        //     } else {
+        //         historyComponent.style.display = "none";
+        //     }
+        // }
+
+        // document.addEventListener('DOMContentLoaded', (event) => {
+        //     // Fetch the username
+        //     fetch('/users/get-username', {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             // include other headers if needed, e.g., authentication tokens.
+        //         }
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             if (data.username) {
+        //                 console.log('Username:', data.username);
+        //                 document.getElementById('usernameDisplay').textContent = data.username;
+        //             } else if (data.error) {
+        //                 console.error(data.error);
+        //             }
+        //         })
+        //         .catch(error => {
+        //             console.error('Error fetching username:', error);
+        //         });
+
+        //     //HERE!!
+
+        //     document.getElementById('change-username-form').addEventListener('submit', async (e) => {
+        //         e.preventDefault();
+        //         const newUsername = document.getElementById('newUsername').value;
+        //         const currentPassword = document.getElementById('currentPassword').value;
+
+        //         try {
+        //             const response = await fetch('/users/update-username', {
+        //                 method: 'POST',
+        //                 headers: {
+        //                     'Content-Type': 'application/json'
+        //                 },
+        //                 body: JSON.stringify({ newUsername, currentPassword })
+        //             });
+
+        //             const data = await response.json();
+        //             if (response.status === 200) {
+        //                 alert(data.message);
+        //                 // Optionally redirect user or update UI here
+        //             } else {
+        //                 alert(data.error);
+        //             }
+
+        //         } catch (err) {
+        //             alert('An error occurred. Please try again later.');
+        //         }
+        //     });
+
+            // // Fetch current user info when the page is loaded
+            // fetch('/users/info')
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         // Display the current user's data in the designated fields
+            //         document.getElementById('usernameDisplay').innerText = data.username;
+            //         document.getElementById('emailDisplay').innerText = data.email;
+            //         document.getElementById('totalScoreDisplay').innerText = data.sum_score;
+            //         document.getElementById('monthlyScoreDisplay').innerText = data.monthly_score;
+            //         document.getElementById('totalTokensDisplay').innerText = data.sum_tokens;
+            //         document.getElementById('monthlyTokensDisplay').innerText = data.monthly_tokens;
+
+            //         // Pre-fill the username input field in the update section with the current username
+            //         document.getElementById('usernameInput').value = data.username;
+            //     })
+            //     .catch(error => {
+            //         console.error("Failed to fetch user data: ", error);
+            //     });
+
+            // // Handle form submission for updating credentials
+            // document.getElementById('editProfileForm').addEventListener('submit', function (event) {
+            //     event.preventDefault();
+
+            //     const currentPassword = document.getElementById('currentPasswordInput').value;
+            //     const newPassword = document.getElementById('newPasswordInput').value;
+            //     const newPasswordConfirm = document.getElementById('confirmNewPasswordInput').value;  // Corrected the ID
+
+            //     // Check if the new passwords match
+            //     if (newPassword !== newPasswordConfirm) {
+            //         alert('Passwords do not match. Please re-enter.');
+            //         return;
+            //     }
+
+            //     const username = document.getElementById('usernameInput').value;
+
+            //     // Send the update request
+            //     fetch('/users/update_credentials', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         },
+            //         body: JSON.stringify({ username, currentPassword, newPassword })
+            //     })
+            //         .then(response => response.json())
+            //         .then(data => {
+            //             if (data.success) {
+            //                 alert('Credentials updated successfully!');
+            //             } else {
+            //                 alert(data.message || 'An error occurred while updating credentials');
+            //             }
+            //         })
+            //         .catch(error => {
+            //             alert('An error occurred while updating credentials');
+            //             console.error(error);
+            //         });
+        //     });
+        // });
+    </script>
+</body>
+
+</html>
