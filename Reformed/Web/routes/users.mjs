@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import path from 'path';
 import * as url from 'url';
 import express from 'express';
-import { getUserInfo, updateCredentials } from '../dbToNode.mjs';
+import { getUserInfo, getUserPassword, updateCredentials } from '../dbToNode.mjs';
 
 const password_regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
 
@@ -16,10 +16,13 @@ export const routerUsers = express.Router();
 // Serve user-specific files using the express.static middleware
 routerUsers.use('/', express.static(path.join(__basename, 'users')));
 
+
+//=========================GET USER INFO=========================
+
 routerUsers.get('/info', async (req, res) => {
   let userId = req.session.userId;
   let userInfo = getUserInfo(userId);
-  console.log(userInfo);
+  console.log("This from the info", userInfo);
 
   userInfo.then((result) => {
     if (result.success) {
@@ -34,14 +37,17 @@ routerUsers.get('/info', async (req, res) => {
   });
 });
 
-routerUsers.put('/update-credentials', async (req, res) => {
+//=========================UPDATE USER INFO=========================
+
+routerUsers.post('/update-credentials', async (req, res) => {
   try {
     let userId = req.session.userId;  
     console.log(userId);
-    const { newUsername, newPassword, currentPassword } = req.body;
-    console.log(newUsername, newPassword, currentPassword);
-    const currentUserInfo = await getUserInfo(userId);
-    console.log(currentUserInfo);
+    const { username, password: currentPassword, newPassword } = req.body;
+    console.log(username, currentPassword, newPassword);
+    const currentUserPassword = await getUserPassword(userId);
+    console.log(currentUserPassword.userInfo.passwd);
+    console.log(currentUserPassword);
 
     // Check new password against the regex if it's provided
     if (newPassword && !password_regex.test(newPassword)) {
@@ -51,15 +57,18 @@ routerUsers.put('/update-credentials', async (req, res) => {
     }
 
     // Check the currentPassword against stored password
-    const isMatch = await bcrypt.compare(currentPassword, currentUserInfo.password);
+    const isMatch = await bcrypt.compare(currentPassword, currentUserPassword.userInfo.passwd);
     if (!isMatch) {
       return res.status(400).json({ error: 'Incorrect current password' });
     }
 
-    const hashedNewPassword = newPassword ? await bcrypt.hash(newPassword, 10) : currentUserInfo.password;
+    // Hash the new password if it's provided
+    const hashedNewPassword = newPassword ? await bcrypt.hash(newPassword, 10) : currentUserPassword.userInfo.passwd;
 
-    const result = await updateCredentials(userId, newUsername || currentUserInfo.username, hashedNewPassword);
+    // Update the user's credentials
+    const result = await updateCredentials(userId, username, hashedNewPassword);
 
+    // Check if the update was successful
     if (!result) {
       return res.status(400).json({ error: 'Failed to update credentials' });
     }

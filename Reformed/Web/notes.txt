@@ -27,5 +27,5 @@
 
 
 --Change username / passwd					//Work on progress
---Fetch stats score & tokens and info		//Work on progress
---History likes / dislikes					//
+--Fetch stats score & tokens & info			//Done
+--History likes / dislikes	/ posted offers	//

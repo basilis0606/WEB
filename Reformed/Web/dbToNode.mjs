@@ -112,6 +112,23 @@ export async function getUserInfo(userId) {
     }
 }
 
+/*================================ Password ================================ */
+export async function getUserPassword(userId) {
+    try {
+        const query = `SELECT passwd FROM users WHERE id = ?;`;
+        const result = await mariadb.paramQuery(query, [userId]);
+
+        if (result.length > 0) {
+            return { success: true, userInfo: result[0] };
+        } else {
+            return { success: false, message: 'User not found.' };
+        }
+    } catch (error) {
+        console.error('Error getting user info:', error);
+        return { success: false, message: 'An internal error occurred.' };
+    }
+}
+
 /*================================ Register ================================ */
 
 export async function registerUser(username, email, password) {

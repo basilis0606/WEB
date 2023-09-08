@@ -50,7 +50,7 @@
                           <p class="text-primary m-0 fw-bold">User Settings</p>
                         </div>
                         <div class="card-body">
-                          <form id="updateCredentialsForm">
+                          <form id="updateCredentialsForm" onsubmit="event.preventDefault(); updateCredentials();">
                             <div class="row">
                               <div class="col">
                                 <div class="mb-3"><label class="form-label"
@@ -76,7 +76,7 @@
                               </div>
                             </div>
                             <div class="mb-3"><button id="submitUserButton" class="btn btn-primary btn-sm"
-                                type="submit">Save
+                                onclick="updateCredentials()" type="button">Save
                                 Settings</button></div>
                           </form>
                         </div>
@@ -194,6 +194,7 @@
                 });
             }
     //------------------ FETCH INFO ----------------------//
+
             function fetchUserInfo() {
               fetchAPI('/users/info', 'GET')
               .then(userInfo => {
@@ -214,7 +215,9 @@
               });
               }
               fetchUserInfo();  
+
       //------------------ UPDATE CREDENTIALS ----------------------//
+
       function updateCredentials() {
         const usernameInput = document.getElementById('username');
         const passwordInput = document.getElementById('password');
@@ -230,7 +233,9 @@
           newPassword: newPassword
         };
 
-        fetchAPI('/users/update-credentials', 'PATCH', data)
+        console.log("Data:", JSON.stringify(data));
+
+        fetchAPI('/users/update-credentials', 'POST', data)
         .then(response => {
           console.log("Full response:", JSON.stringify(response));
           console.log("Message:", response.message);
@@ -247,6 +252,11 @@
           console.error(error);
         });
       }
+      window.onload = function() {
+        document.getElementById('password').value = '';
+        document.getElementById('newPassword').value = '';
+    };
+
 
   </script>
 
