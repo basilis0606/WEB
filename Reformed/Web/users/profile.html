@@ -198,14 +198,16 @@
               fetchAPI('/users/info', 'GET')
               .then(userInfo => {
               console.log("Full userInfo:", JSON.stringify(userInfo));
-              //console.log("Username:", userInfo.username);  //Returns undefined
-              //console.log("Email:", userInfo.email);        //Doesn't work
 
                   const usernameInput = document.getElementById('username');
                   const emailInput = document.getElementById('email');
-
+                  document.getElementById('monthlyTokens').textContent = userInfo.userInfo.monthly_tokens;
+                  document.getElementById('totalTokens').textContent = userInfo.userInfo.sum_tokens;
+                  document.getElementById('monthlyScore').textContent = userInfo.userInfo.monthly_score;
+                  document.getElementById('totalScore').textContent = userInfo.userInfo.sum_score;
                   usernameInput.value = userInfo.userInfo.username;
                   emailInput.value = userInfo.userInfo.email;
+
               })
               .catch(error => {
                   console.error(error);
