@@ -19,6 +19,7 @@ routerUsers.use('/', express.static(path.join(__basename, 'users')));
 routerUsers.get('/info', async (req, res) => {
   let userId = req.session.userId;
   let userInfo = getUserInfo(userId);
+  console.log(userInfo);
 
   userInfo.then((result) => {
     if (result.success) {

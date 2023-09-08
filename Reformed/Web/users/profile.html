@@ -2,96 +2,181 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>haggle - Profile</title>
+  <!-- Title icon -->
+  <link rel="icon" href="/img/location-dot.svg" type="image/x-icon" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@100&family=Roboto&display=swap" rel="stylesheet">
+  <!-- MDB -->
+  <link rel="stylesheet" href="/css/mdb.min.css" />
 </head>
 
-<body>
+<body style="background-color: #e2e5c5;">
+  <!-- First Popper.js, then Bootstrap JS. In case Jquery is used It needs to be loaded first-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Profile Display Content -->
-    <div class="container mt-4">
-        <h2>User Profile</h2>
-        <div class="card mt-4">
-            <div class="card-body">
-                <p><strong>Username:</strong> <span id="usernameDisplay"></span></p>
-                <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
-                <p><strong>Total Score:</strong> <span id="totalScoreDisplay"></span></p>
-                <p><strong>Monthly Score:</strong> <span id="monthlyScoreDisplay"></span></p>
-                <p><strong>Total Tokens:</strong> <span id="totalTokensDisplay"></span></p>
-                <p><strong>Monthly Tokens:</strong> <span id="monthlyTokensDisplay"></span></p>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-9 col-lg-10 col-md-11" style="width: 100%;">
+          <div class="card" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <h4 class="text-dark m-4">Profile</h4>
+              <div class="row mb-3">
+                <div class="col-lg-4">
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="text-primary fw-bold m-0">User's Progress</h6>
+                    </div>
+                    <div class="card-body">
+                      <h4 class="small fw-bold">Monthly Tokens:<span id="monthlyTokens" class="float-end"></span></h4>
+                      <h4 class="small fw-bold">Total Tokens:<span id="totalTokens" class="float-end"></span></h4>
+                      <h4 class="small fw-bold">Monthly Score:<span id="monthlyScore" class="float-end"></span></h4>
+                      <h4 class="small fw-bold">Total Score<span id="totalScore" class="float-end"></span></h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-8">
+                  <div class="row">
+                    <div class="col">
+                      <div class="card shadow mb-3">
+                        <div class="card-header py-3">
+                          <p class="text-primary m-0 fw-bold">User Settings</p>
+                        </div>
+                        <div class="card-body">
+                          <form id="updateCredentialsForm">
+                            <div class="row">
+                              <div class="col">
+                                <div class="mb-3"><label class="form-label"
+                                    for="username"><strong>Username</strong></label><input class="form-control"
+                                    type="text" id="username" name="username"></div>
+                              </div>
+                              <div class="col">
+                                <div class="mb-3"><label class="form-label" for="email"><strong>Email
+                                      Address</strong></label><input class="form-control" type="email" id="email"
+                                    name="email" disabled></div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col">
+                                <div class="mb-3"><label class="form-label" for="first_name"><strong>Password
+                                    </strong></label><input class="form-control" type="password" id="password"
+                                    placeholder="Current Password" name="password"></div>
+                              </div>
+                              <div class="col">
+                                <div class="mb-3"><label class="form-label" for="last_name"><strong>New password
+                                    </strong></label><span> </span><input class="form-control" type="password"
+                                    id="newPassword" placeholder="Optionally change password" name="new password"></div>
+                              </div>
+                            </div>
+                            <div class="mb-3"><button id="submitUserButton" class="btn btn-primary btn-sm"
+                                type="submit">Save
+                                Settings</button></div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+            <div class="row g-0">
+              <div class="col mx-4 text-nowrap">
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="text-primary fw-bold m-0">Like Activity</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive table mt-2" id="dataTable" role="grid"
+                      aria-describedby="dataTable_info">
+                      <table class="table my-0" id="likesTable">
+                        <thead>
+                          <tr>
+                            <th>Offer</th>
+                            <th>Location / Store</th>
+                            <th>Submitted by</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- Table rows for like activity -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col mx-4 text-nowrap">
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="text-primary fw-bold m-0">Dislike Activity</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive table mt-2" id="dataTable" role="grid"
+                      aria-describedby="dataTable_info">
+                      <table class="table my-0" id="dislikesTable">
+                        <thead>
+                          <tr>
+                            <th>Offer</th>
+                            <th>Location / Store</th>
+                            <th>Submitted by</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- Table rows for dislike activity -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row g-0">
+              <!-- Users posted Offers -->
+              <div class="col mx-4 text-nowrap">
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="text-primary fw-bold m-0">Posted Offers</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive table mt-2" id="dataTable" role="grid"
+                      aria-describedby="dataTable_info">
+                      <table class="table my-0" id="postedOffersTable">
+                        <thead>
+                          <tr>
+                            <th>Offer</th>
+                            <th>Location / Store</th>
+                            <th>Price</th>
+                            <th>Posted</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- Table rows for posted offers -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <button id="viewHistoryBtn" class="btn btn-info mt-2" onclick="toggleHistory()">View History</button>
+      </div>
     </div>
+  </section>
 
-    <!-- Profile Edit Component -->
-    <div class="container mt-4">
-        <h2>Edit Profile</h2>
-        <form id="editProfileForm">
-            <div class="mb-3">
-                <label for="usernameInput" class="form-label">Username</label>
-                <input type="text" class="form-control" id="usernameInput">
-            </div>
-            <div class="mb-3">
-                <label for="currentPasswordInput" class="form-label">Current Password</label>
-                <input type="password" class="form-control" id="currentPasswordInput">
-            </div>
-            <div class="mb-3">
-                <label for="newPasswordInput" class="form-label">New Password</label>
-                <input type="password" class="form-control" id="newPasswordInput">
-            </div>
-            <div class="mb-3">
-                <label for="confirmNewPasswordInput" class="form-label">Confirm New Password</label>
-                <input type="password" class="form-control" id="confirmNewPasswordInput">
-            </div>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
-    </div>
+  <!-- MDB -->
+  <script type="text/javascript" src="/js/mdb.min.js"></script>
 
-    <!-- History Component (Initially hidden) -->
-    <div class="container mt-4" id="historyComponent" style="display: none;">
-        <h2>Sales/Offer History</h2>
-        <table class="table">
-            <!-- Dynamically populate rows using JavaScript -->
-        </table>
-        <h2>Likes/Dislikes History</h2>
-        <table class="table">
-            <!-- Dynamically populate rows using JavaScript -->
-        </table>
-    </div>
-
-    <!-- Feedback mechanism - Initially hidden (can be toggled via JS) -->
-    <div class="alert alert-success" role="alert" style="display: none;" id="successAlert">
-        Profile updated successfully!
-    </div>
-
-    <div class="alert alert-danger" role="alert" style="display: none;" id="errorAlert">
-        Oops! Something went wrong.
-    </div>
-
-    <!-- Change Username -->
-    <div class="container mt-4">
-        <h2>Change Username</h2>
-        <form id="change-username-form">
-            <label for="newUsername">New Username:</label>
-            <input type="text" id="newUsername" required>
-
-            <label for="currentPassword">Current Password:</label>
-            <input type="password" id="currentPassword" required>
-
-            <input type="submit" value="Change Username">
-        </form>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-
-        async function fetchAPI(url, method, data = {}) {
+  <!-- Custom scripts -->
+  <script type="text/javascript">
+    //------------------ FETCH API ----------------------//
+          async function fetchAPI(url, method, data = {}) {
             const requestOptions = {
                 method: method,
                 headers: {
@@ -107,143 +192,62 @@
                     console.error(error);
                     throw new Error('Something went wrong. Please try again later.');
                 });
-        }
+            }
+    //------------------ FETCH INFO ----------------------//
+            function fetchUserInfo() {
+              fetchAPI('/users/info', 'GET')
+              .then(userInfo => {
+              console.log("Full userInfo:", JSON.stringify(userInfo));
+              //console.log("Username:", userInfo.username);  //Returns undefined
+              //console.log("Email:", userInfo.email);        //Doesn't work
 
-        const userInfo = fetchAPI('/users/info', 'GET');
-        
-        userInfo.then((res) => {
-            console.log(res);
-        }).catch((err) => {
-            console.log(err);
+                  const usernameInput = document.getElementById('username');
+                  const emailInput = document.getElementById('email');
+
+                  usernameInput.value = userInfo.userInfo.username;
+                  emailInput.value = userInfo.userInfo.email;
+              })
+              .catch(error => {
+                  console.error(error);
+              });
+              }
+              fetchUserInfo();  
+      //------------------ UPDATE CREDENTIALS ----------------------//
+      function updateCredentials() {
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const newPasswordInput = document.getElementById('newPassword');
+
+        const username = usernameInput.value;
+        const password = passwordInput.value;
+        const newPassword = newPasswordInput.value;
+
+        const data = {
+          username: username,
+          password: password,
+          newPassword: newPassword
+        };
+
+        fetchAPI('/users/update-credentials', 'PATCH', data)
+        .then(response => {
+          console.log("Full response:", JSON.stringify(response));
+          console.log("Message:", response.message);
+          console.log("Success:", response.success);
+
+          if (response.success) {
+            alert(response.message);
+            window.location.href = "/users/profile";
+          } else {
+            alert(response.message);
+          }
+        })
+        .catch(error => {
+          console.error(error);
         });
+      }
 
-        const changeduserName = fetchAPI('/users/update-credentials', 'POST', { newUsername: 'mpill', currentPassword: 'Basilis06!' });
+  </script>
 
-        changeduserName.then((res) => {
-            console.log(res);
-        }).catch((err) => {
-            console.log(err);
-        });
-
-
-        // function toggleHistory() {
-        //     const historyComponent = document.getElementById('historyComponent');
-        //     if (historyComponent.style.display === "none") {
-        //         historyComponent.style.display = "block";
-        //     } else {
-        //         historyComponent.style.display = "none";
-        //     }
-        // }
-
-        // document.addEventListener('DOMContentLoaded', (event) => {
-        //     // Fetch the username
-        //     fetch('/users/get-username', {
-        //         method: 'GET',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             // include other headers if needed, e.g., authentication tokens.
-        //         }
-        //     })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             if (data.username) {
-        //                 console.log('Username:', data.username);
-        //                 document.getElementById('usernameDisplay').textContent = data.username;
-        //             } else if (data.error) {
-        //                 console.error(data.error);
-        //             }
-        //         })
-        //         .catch(error => {
-        //             console.error('Error fetching username:', error);
-        //         });
-
-        //     //HERE!!
-
-        //     document.getElementById('change-username-form').addEventListener('submit', async (e) => {
-        //         e.preventDefault();
-        //         const newUsername = document.getElementById('newUsername').value;
-        //         const currentPassword = document.getElementById('currentPassword').value;
-
-        //         try {
-        //             const response = await fetch('/users/update-username', {
-        //                 method: 'POST',
-        //                 headers: {
-        //                     'Content-Type': 'application/json'
-        //                 },
-        //                 body: JSON.stringify({ newUsername, currentPassword })
-        //             });
-
-        //             const data = await response.json();
-        //             if (response.status === 200) {
-        //                 alert(data.message);
-        //                 // Optionally redirect user or update UI here
-        //             } else {
-        //                 alert(data.error);
-        //             }
-
-        //         } catch (err) {
-        //             alert('An error occurred. Please try again later.');
-        //         }
-        //     });
-
-            // // Fetch current user info when the page is loaded
-            // fetch('/users/info')
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         // Display the current user's data in the designated fields
-            //         document.getElementById('usernameDisplay').innerText = data.username;
-            //         document.getElementById('emailDisplay').innerText = data.email;
-            //         document.getElementById('totalScoreDisplay').innerText = data.sum_score;
-            //         document.getElementById('monthlyScoreDisplay').innerText = data.monthly_score;
-            //         document.getElementById('totalTokensDisplay').innerText = data.sum_tokens;
-            //         document.getElementById('monthlyTokensDisplay').innerText = data.monthly_tokens;
-
-            //         // Pre-fill the username input field in the update section with the current username
-            //         document.getElementById('usernameInput').value = data.username;
-            //     })
-            //     .catch(error => {
-            //         console.error("Failed to fetch user data: ", error);
-            //     });
-
-            // // Handle form submission for updating credentials
-            // document.getElementById('editProfileForm').addEventListener('submit', function (event) {
-            //     event.preventDefault();
-
-            //     const currentPassword = document.getElementById('currentPasswordInput').value;
-            //     const newPassword = document.getElementById('newPasswordInput').value;
-            //     const newPasswordConfirm = document.getElementById('confirmNewPasswordInput').value;  // Corrected the ID
-
-            //     // Check if the new passwords match
-            //     if (newPassword !== newPasswordConfirm) {
-            //         alert('Passwords do not match. Please re-enter.');
-            //         return;
-            //     }
-
-            //     const username = document.getElementById('usernameInput').value;
-
-            //     // Send the update request
-            //     fetch('/users/update_credentials', {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         },
-            //         body: JSON.stringify({ username, currentPassword, newPassword })
-            //     })
-            //         .then(response => response.json())
-            //         .then(data => {
-            //             if (data.success) {
-            //                 alert('Credentials updated successfully!');
-            //             } else {
-            //                 alert(data.message || 'An error occurred while updating credentials');
-            //             }
-            //         })
-            //         .catch(error => {
-            //             alert('An error occurred while updating credentials');
-            //             console.error(error);
-            //         });
-        //     });
-        // });
-    </script>
 </body>
 
 </html>

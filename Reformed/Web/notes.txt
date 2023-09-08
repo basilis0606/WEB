@@ -24,3 +24,8 @@
 	6.1 Γεμισμα πινάκων απο JSON
 	6.2 Ενημέρωση Διαγραφή Δεδομένων
 	6.3 Ανέβασμα αλλαγών στη βάση και export νέο JSON Που θα κάνει Overwrite το παλιό
+
+
+--Change username / passwd					//Work on progress
+--Fetch stats score & tokens and info		//Work on progress
+--History likes / dislikes					//

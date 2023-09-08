@@ -94,11 +94,11 @@ export async function updateCredentials(userId, newUsername=null, hashedNewPassw
 }
 
 
-/*================================ Profile ================================ */
+/*================================ Info ================================ */
 
 export async function getUserInfo(userId) {
     try {
-        const query = `SELECT username, email FROM users WHERE id = ?;`;
+        const query = `SELECT username, email, sum_score, sum_tokens, monthly_score, monthly_tokens FROM users WHERE id = ?;`;
         const result = await mariadb.paramQuery(query, [userId]);
 
         if (result.length > 0) {
