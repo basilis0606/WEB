@@ -26,6 +26,6 @@
 	6.3 Ανέβασμα αλλαγών στη βάση και export νέο JSON Που θα κάνει Overwrite το παλιό
 
 
---Change username / passwd					//Work on progress
---Fetch stats score & tokens & info			//Done
---History likes / dislikes	/ posted offers	//
+--History likes / dislikes	που εχει κανει
+--History προσφορών που εχει κανει
+--

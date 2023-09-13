@@ -159,6 +159,58 @@ export async function registerUser(username, email, password) {
 	}
 }
 
+/*================================ Likes user did ================================ */
+export async function getLikes(userId) {
+    try {
+        const query = ``;
+        const result = await mariadb.paramQuery(query, [userId]);
+
+        if (result.length > 0) {
+            return { success: true, userInfo: result[0] };
+        } else {
+            return { success: false, message: 'User not found.' };
+        }
+    } catch (error) {
+        console.error('Error getting user likes:', error);
+        return { success: false, message: 'An internal error occurred.' };
+    }
+}
+
+/*================================ Dislikes user did ================================ */
+export async function getDislikes(userId) {
+    try {
+        const query = ``;
+        const result = await mariadb.paramQuery(query, [userId]);
+
+        if (result.length > 0) {
+            return { success: true, userInfo: result[0] };
+        } else {
+            return { success: false, message: 'User not found.' };
+        }
+    } catch (error) {
+        console.error('Error getting user dislikes:', error);
+        return { success: false, message: 'An internal error occurred.' };
+    }
+}
+
+/*================================ Offers user did ================================ */
+
+export async function getOffers(userId) {
+    try {
+        const query = ``;
+        const result = await mariadb.paramQuery(query, [userId]);
+
+        if (result.length > 0) {
+            return { success: true, userInfo: result[0] };
+        } else {
+            return { success: false, message: 'User not found.' };
+        }
+    } catch (error) {
+        console.error('Error getting user offers:', error);
+        return { success: false, message: 'An internal error occurred.' };
+    }
+}
+
 /*=============================== Usefull Funtions =============================== */
 
 function arrayjsonFormatter(input, format) {
