@@ -278,58 +278,54 @@ adminRouter.post('/uploadstores', upload.single('file'), (req, res) => {
 adminRouter.post('/delprods', async (req, res) => {
     let delquery = "";
     let ids2delete = req.body;
-    let i=0;
     
     try{
         ids2delete.forEach(id => {
             delquery =`DELETE FROM products WHERE id=${id}; `;
-            let deletion = mariadb.paramQuery(delquery);  
-            i++;       
+            let deletion = mariadb.paramQuery(delquery);         
         })
     
-        await mariadb.commit();
-        console.log("deletion successful. Deleted ", i, "items."); 
-        res.redirect('/users/admin_main.html');
+        await mariadb.commit(); 
+        res.json({ success: true });
     }catch(sqlError){
         console.log("Error while deleting from DB.")
+        res.json({ success: false });
     } 
 })
 
 adminRouter.post('/delcats', async (req, res) => {
     let delquery = "";
     let ids2delete = req.body;
-    let i=0;
     
     try{
         ids2delete.forEach(id => {
             delquery =`DELETE FROM subcategories WHERE id=${id}; `;
-            let deletion = mariadb.paramQuery(delquery);  
-            i++;       
+            let deletion = mariadb.paramQuery(delquery);         
         })
     
         await mariadb.commit();
-        console.log("deletion successful. Deleted ", i, "items."); 
+        res.json({success: true})
     }catch(sqlError){
-        console.log("Error while deleting from DB.")
+        console.log("Error while deleting from DB.");
+        res.json({success: false})
     }
 })
 
 adminRouter.post('/delstores', async (req, res) => {
     let delquery = "";
     let ids2delete = req.body;
-    let i=0;
     
     try{
         ids2delete.forEach(id => {
             delquery =`DELETE FROM stores WHERE id=${id}; `;
-            let deletion = mariadb.paramQuery(delquery);  
-            i++;       
+            let deletion = mariadb.paramQuery(delquery);       
         })
     
         await mariadb.commit();
-        console.log("deletion successful. Deleted ", i, "items."); 
+        res.json({success: true})
     }catch(sqlError){
-        console.log("Error while deleting from DB.")
+        console.log("Error while deleting from DB.");
+        res.json({success: false})
     }
 })
 

@@ -136,7 +136,7 @@ def initialize_stores_from_overpass_turbo_query(stores_json):
 def main():
 	# Create the database connection
 	conn = establish_localhost_mariadb_connection(
-		"sf", "sf", "localhost", "web_2022")
+		"root", "maria", "localhost", "web_2023")
 	cur = conn.cursor()
 
 	users = False

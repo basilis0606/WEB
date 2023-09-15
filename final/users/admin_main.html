@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en" style="position: relative;height: 814px;">
+<html data-bs-theme="light" lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
-    <title>web2023_admin_productdata</title>
+    <title>haggle: Admin</title>
     <link rel="stylesheet" href="/adm_assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/adm_assets/css/pagination.css">
     <link rel="stylesheet" href="/adm_assets/css/Acme.css">
@@ -16,183 +16,261 @@
     <link rel="stylesheet" href="/adm_assets/css/Navbar-With-Button-icons.css">
 </head>
 
-<body style="height: 814px;position: relative;margin: 0px 0px 0px;width: 1277px;background: url(&quot;/adm_assets/img/white%20background.jpg&quot;) no-repeat;background-size: auto;"><img style="margin: 10px 10px;width: 64px;height: 64px;position: relative;" width="100" height="80" src="/adm_assets/img/8033099971580816655-128.png">
-    <button class="btn btn-primary" id="profilesettings_button" type="button" style="display: grid;margin: -60px 1100px;width: 150px;height: 38px;text-align: center;font-family: Alata, sans-serif;position: relative;">Profile Settings</button>
-    <h1 style="width: 320px;display: inline-block;margin: 13px 80px 8px;font-size: 40px;position: relative;">Welcome Admin!</h1>
-    <div style="width: 1191px;margin: 20px -20px 20px 20px;margin-right: 42px;padding-right: 0px;padding-left: 32px;">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item" role="presentation" id="products_tab" style="width: 150px;height: 60px;margin: 0px 0px 0px 10px;"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1" style="border-top-left-radius: 4px;border-top-right-radius: 4px;border-bottom-right-radius: 4px;border-bottom-left-radius: 4px;margin: 0px;background: url(&quot;/adm_assets/img/14957230881678785316-128.png&quot;) center / contain no-repeat, transparent;height: 60px;"></a></li>
-            <li class="nav-item" role="presentation" id="categories_tab" style="width: 150px;height: 60px;margin: 0px 0px 0px 10px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2" style="height: 60px;background: url(&quot;/adm_assets/img/categories.png&quot;) center / contain no-repeat;"></a></li>
-            <li class="nav-item" role="presentation" id="stores_tab" style="margin: 0px 0px 0px 10px;width: 150px;height: 60px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3" style="height: 60px;background: url(&quot;/adm_assets/img/8015517251578289043-128.png&quot;) center / contain no-repeat;"></a></li>
-            <li class="nav-item" role="presentation" id="stats_tab" style="margin: 0px 0px 0px 10px;width: 150px;height: 60px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4" style="height: 60px;background: url(&quot;/adm_assets/img/544378381639220039-128.png&quot;) center / contain no-repeat;"></a></li>
-            <li class="nav-item" role="presentation" id="leaders_tab" style="margin: 0px 0px 0px 10px;width: 150px;height: 60px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-5" style="height: 60px;background: url(&quot;/adm_assets/img/leaderboard2.png&quot;) center / contain no-repeat;"></a></li>
-            <li class="nav-item" role="presentation" id="chmode_tab" style="margin: 0px 0px 0px 10px;width: 150px;height: 60px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-6" style="height: 60px;margin: 0px;background: url(&quot;/adm_assets/img/781752361582955604-128.png&quot;) center / contain no-repeat;"></a></li>
-            <li class="nav-item" role="presentation" id="logout_tab" style="margin: 0px 0px 0px 10px;width: 150px;"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-7" style="height: 60px;background: url(&quot;/adm_assets/img/logout2.png&quot;) center / contain no-repeat;"></a></li>
-        </ul>
-        <div class="tab-content" style="margin: 10px 0px 0px 0px;">
-            <div class="tab-pane active" role="tabpanel" id="tab-1">
-                <div class="table-responsive" id="products_table" style="opacity: 1;">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th style="width: 15px;position: relative;text-align: center;"></th>
-                                <th style="width: 50px;position: relative;text-align: center;">ID</th>
-                                <th style="width: 220px;position: relative;text-align: center;">NAME</th>
-                                <th style="width: 80px;position: relative;text-align: center;">AVG PRICE YESTERDAY</th>
-                                <th style="width: 100px;position: relative;text-align: center;">SUBCATEGORY</th>
-                                <th style="width: 100px;position: relative;text-align: center;">CATEGORY</th>
-                            </tr>
-                        </thead>
-                        <tbody id="products_tbody"></tbody>
-                    </table>
+<body style="background: url(&quot;/adm_assets/img/white%20background.jpg&quot;); background-size:cover;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <img style="width:56px; height:56px;" src="/adm_assets/img/8033099971580816655-128.png">
+            <a href="#" class="navbar-brand" style="margin-left: 0.5%;">Welcome Admin!</a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto">              	
+                    <a href="/users/profile.html" class="nav-item nav-link">Profile Settings</a>
                 </div>
-                <button id="delprods_button" class="btn btn-primary" type="button" style="width: 105px;margin-bottom: -50px;">DELETE</button>
-                <form style="width: 600px;margin-left: 600px;" action="/admin/uploadprods" method="POST" enctype="multipart/form-data">
-                    <input class="form-control" type="file" name="file" style="width: 450px;">
-                    <input class="btn btn-primary" type="submit" value="Upload File" style="margin-left: 490px;margin-top: -67px;">
-                </form>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-2" style="opacity: 1;">
-                <div class="table-responsive" id="categories_table" style="opacity: 1;">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th style="width: 15px;position: relative;"></th>
-                                <th style="width: 85px;position: relative;">ID</th>
-                                <th style="width: 200px;position: relative;">NAME</th>
-                                <th style="width: 100px;position: relative;">CATEGORY ID</th>
-                                <th style="width: 150px;position: relative;">CATEGORY NAME</th>
-                            </tr>
-                        </thead>
-                        <tbody id="categories_tbody"></tbody>
-                    </table>
-                </div>
-                <button id="delcats_button" class="btn btn-primary" type="button" style="width: 105px;margin-bottom: -50px;">DELETE</button>
-                <form style="width: 600px;margin-left: 600px;" action="/admin/uploadcats" method="POST" enctype="multipart/form-data">
-                    <input class="form-control" type="file" name="file" style="width: 450px;">
-                    <input class="btn btn-primary" type="submit" value="Upload File" style="margin-left: 490px;margin-top: -67px;">
-                </form>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-3">
-                <div class="table-responsive" id="stores_table" style="opacity: 1;">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th style="width: 15px;position: relative;"></th>
-                                <th style="width: 85px;position: relative;">ID</th>
-                                <th style="width: 85px;position: relative;">LATITUDE</th>
-                                <th style="width: 85px;position: relative;">LONGITUDE</th>
-                                <th style="width: 100px;position: relative;">NAME</th>
-                                <th style="width: 100px;position: relative;">OPENING HOURS</th>
-                                <th style="width: 100px;position: relative;">SHOP</th>
-                            </tr>
-                        </thead>
-                        <tbody id="stores_tbody"></tbody>
-                    </table>
-                </div>
-                <button id="delstores_button" class="btn btn-primary" type="button" style="width: 105px;margin-bottom: -50px;">DELETE</button>
-                <form style="width: 600px;margin-left: 600px;" action="/admin/uploadstores" method="POST" enctype="multipart/form-data">
-                    <input class="form-control" type="file" name="file" style="width: 450px;">
-                    <input class="btn btn-primary" type="submit" value="Upload File" style="margin-left: 490px;margin-top: -67px;">
-                </form>
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-4">
-                <div class="container">
-                    <div class="dropdown" style="margin-left: 120px;width: 70px;">
-                        <button id="yearDropdown_button" class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="margin-left: 0px;">Year</button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText(2020, 'year')">2020</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText(2021, 'year')">2021</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText(2022, 'year')">2022</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText(2023, 'year')">2023</a>
-                        </div>
-                    </div>
-                    <div class="dropdown" style="margin-top: -38px;margin-left: 0px;width: 120px;">
-                        <button id="monthDropdown_button" class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="margin-top: 0px;">Month</button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('January', 'month')">January</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('February', 'month')">February</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('March', 'month')">March</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('April', 'month')">April</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('May', 'month')">May</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('June', 'month')">June</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('July', 'month')">July</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('August', 'month')">August</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('September', 'month')">September</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('October', 'month')">October</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('November', 'month')">November</a>
-                            <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('December', 'month')">December</a>
-                        </div>
-                    </div>
-                    <p style="width: 481px;height: 29px;margin-top: -32px;margin-left: 241px;font-size: 18px;background: url('https://cdn.bootstrapstudio.io/placeholders/1400x800.png');">
-                        Please select month and year to construct the sales graph.
-                    </p>
-                    <button id="refreshChart1_button" class="btn btn-primary" type="button" style="width: 24px;height: 24px;margin-top: -95px;margin-left: 204px;background: url(&quot;/adm_assets/img/293271_replay_restart_refresh_icon.png&quot;) center / contain;"></button>
-                    <div id="saleschartContainer">
-
-                    </div>
-                </div>
-                <div class="container" style="position: relative; margin-top:450px">
-                    <div class="dropdown" style="margin-left: 120px;width: 70px;">
-                        <button id="subcategoryDropdown_button" class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="margin-left: 80px;">Subcategory</button>
-                        <div class="dropdown-menu", id="subcategories_menu">
-                        </div>
-                    </div>
-                    <div class="dropdown" style="margin-top: -38px;margin-left: 0px;width: 120px;">
-                        <button id="categoryDropdown_button" class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="margin-top: 0px;">Category</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Βρεφικά Είδη', 'category'); bringSubcategories('Βρεφικά Είδη')">Βρεφικά Είδη</a>
-                                <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Καθαριότητα', 'category'); bringSubcategories('Καθαριότητα')">Καθαριότητα</a>
-                                <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Ποτά - Αναψυκτικά', 'category'); bringSubcategories('Ποτά - Αναψυκτικά')">Ποτά - Αναψυκτικά</a>
-                                <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Προσωπική φροντίδα', 'category'); bringSubcategories('Προσωπική φροντίδα')">Προσωπική Φροντίδα</a>
-                                <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Τρόφιμα', 'category'); bringSubcategories('Τρόφιμα')">Τρόφιμα</a>
-                                <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Αντισηπτικά', 'category'); bringSubcategories('Αντισηπτικά')">Αντισηπτικά</a>
-                                <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Προστασία Υγείας', 'category'); bringSubcategories('Προστασία Υγείας')">Προστασία Υγείας</a>
-                                <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Για κατοικίδια', 'category'); bringSubcategories('Για κατοικίδια')">Για κατοικίδια</a>
-                            </div>
-                    </div>
-                    <p style="width: 609px;height: 29px;margin-top: -32px;margin-left: 550px;font-size: 18px;background: url('https://cdn.bootstrapstudio.io/placeholders/1400x800.png');">
-                        Please select category (and subcategory) for the average discount graph.
-                    </p>
-                    <button id="refreshChart2_button" class="btn btn-primary" type="button" style="width: 24px;height: 24px;margin-top: -95px;margin-left: 500px;background: url(&quot;/adm_assets/img/293271_replay_restart_refresh_icon.png&quot;) center / contain;"></button>
-                    <div id="discountchartContainer">
-
-                    </div>
-                </div>
-        
-            </div>
-            <div class="tab-pane" role="tabpanel" id="tab-5">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th> </th>
-                                <th >USERNAME</th>
-                                <th style="position: relative; text-align: center;">TOTAL SCORE</th>
-                                <th style="position: relative; text-align: center;">TOKENS LAST MONTH</th>
-                                <th style="position: relative; text-align: center;">TOTAL TOKENS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="users_tbody">
-
-                        </tbody>
-                    </table>
-                </div>
-                <nav class="pagination-container">
-                    <button class="pagination-button" id="prev-button" title="Previous page" aria-label="Previous page">
-                      &lt;
-                    </button>
-                    
-                    <div id="pagination-numbers">
-                    </div>
-                    
-                    <button class="pagination-button" id="next-button" title="Next page" aria-label="Next page">
-                      &gt;
-                    </button>
-                  </nav>
             </div>
         </div>
-    </div>
+    </nav>
+    <div class="container">
+        <div>
+            <ul class="nav nav-tabs" role="tablist" style="margin-left: 1%; margin-right: 1%;">
+                <li class="nav-item" role="presentation" id="products_tab" style="width:14%";><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1" style="border-top-left-radius: 4px;border-top-right-radius: 4px;border-bottom-right-radius: 4px;border-bottom-left-radius: 4px;margin: 0px;background: url(&quot;/adm_assets/img/14957230881678785316-128.png&quot;) center / contain no-repeat, transparent;height: 60px;"></a></li>
+                <li class="nav-item" role="presentation" id="categories_tab" style="width:14%";><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2" style="height: 60px;background: url(&quot;/adm_assets/img/categories.png&quot;) center / contain no-repeat;"></a></li>
+                <li class="nav-item" role="presentation" id="stores_tab" style="width:14%";><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3" style="height: 60px;background: url(&quot;/adm_assets/img/8015517251578289043-128.png&quot;) center / contain no-repeat;"></a></li>
+                <li class="nav-item" role="presentation" id="stats_tab" style="width:14%";><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4" style="height: 60px;background: url(&quot;/adm_assets/img/544378381639220039-128.png&quot;) center / contain no-repeat;"></a></li>
+                <li class="nav-item" role="presentation" id="leaders_tab" style="width:14%";><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-5" style="height: 60px;background: url(&quot;/adm_assets/img/leaderboard2.png&quot;) center / contain no-repeat;"></a></li>
+                <li class="nav-item" role="presentation" id="chmode_tab" style="width:14%";><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-6" style="height: 60px;margin: 0px;background: url(&quot;/adm_assets/img/781752361582955604-128.png&quot;) center / contain no-repeat;"></a></li>
+                <li class="nav-item" role="presentation" id="logout_tab" style="width:14%";><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-7" style="height: 60px;background: url(&quot;/adm_assets/img/logout2.png&quot;) center / contain no-repeat;"></a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" role="tabpanel" id="tab-1">
+                    <div class="table-responsive" id="products_table" style="opacity: 1; max-height: 700px;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="position: relative;text-align: center;"></th>
+                                    <th style="position: relative;text-align: center;">ID</th>
+                                    <th style="position: relative;text-align: center;">NAME</th>
+                                    <th style="width: 20%; position: relative;text-align: center;">AVG PRICE YESTERDAY</th>
+                                    <th style="position: relative;text-align: center;">SUBCATEGORY</th>
+                                    <th style="position: relative;text-align: center;">CATEGORY</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products_tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="row" style="margin-top: 5%; margin-bottom: 1%;">
+                        <div class="col">
+                            <button id="delprods_button" class="btn btn-primary" type="button">DELETE</button>  
+                        </div>
+                        <div class="col">
+                            <form action="/admin/uploadprods" method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col">
+                                        <input class="form-control" type="file" name="file" style="width: auto;">
+                                    </div>
+                                    <div class="col">
+                                        <input class="btn btn-primary" type="submit" value="Upload File">
+                                    </div>
+                                </div>                     
+                            </form>
+                        </div>
+                    </div>                      
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab-2" style="opacity: 1;">
+                    <div class="table-responsive" id="categories_table" style="opacity: 1; max-height: 700px;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="position: relative; text-align: center;"></th>
+                                    <th style="position: relative; text-align: center;">ID</th>
+                                    <th style="position: relative; text-align: center;">NAME</th>
+                                    <th style="position: relative; text-align: center;">CATEGORY ID</th>
+                                    <th style="position: relative; text-align: center;">CATEGORY NAME</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categories_tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="row" style="margin-top: 5%; margin-bottom: 1%;">
+                        <div class="col">
+                            <button id="delcats_button" class="btn btn-primary" type="button">DELETE</button>
+                        </div>
+                        <div class="col">
+                            <form action="/admin/uploadcats" method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                        <div class="col">
+                                            <input class="form-control" type="file" name="file" style="width: auto;">
+                                        </div>
+                                        <div class="col">
+                                            <input class="btn btn-primary" type="submit" value="Upload File">
+                                        </div>
+                                </div>
+                            </form>                   
+                        </div>
+                    </div>                      
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab-3">
+                    <div class="table-responsive" id="stores_table" style="opacity: 1;max-height: 700px;">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="position: relative; text-align: center;"></th>
+                                    <th style="position: relative; text-align: center;">ID</th>
+                                    <th style="position: relative; text-align: center;">LATITUDE</th>
+                                    <th style="position: relative; text-align: center;">LONGITUDE</th>
+                                    <th style="position: relative; text-align: center;">NAME</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stores_tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="row" style="margin-top: 5%; margin-bottom: 1%;">
+                        <div class="col">
+                            <button id="delstores_button" class="btn btn-primary" type="button">DELETE</button>
+                        </div>
+                        <div class="col">
+                            <form action="/admin/uploadstores" method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                        <div class="col">
+                                            <input class="form-control" type="file" name="file" style="width: auto;">
+                                        </div>
+                                        <div class="col">
+                                            <input class="btn btn-primary" type="submit" value="Upload File">
+                                        </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab-4">
+                    <div class="container">
+                        <div class="row" style="margin-top: 2%;">
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button id="monthDropdown_button" class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="margin-top: 0px;">Month</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('January', 'month')">January</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('February', 'month')">February</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('March', 'month')">March</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('April', 'month')">April</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('May', 'month')">May</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('June', 'month')">June</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('July', 'month')">July</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('August', 'month')">August</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('September', 'month')">September</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('October', 'month')">October</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('November', 'month')">November</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('December', 'month')">December</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button id="yearDropdown_button" class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="margin-left: 0px;">Year</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText(2020, 'year')">2020</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText(2021, 'year')">2021</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText(2022, 'year')">2022</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText(2023, 'year')">2023</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <button id="refreshChart1_button" class="btn btn-primary" type="button" style="width: 24px;height: 24px; margin-top: 5%; background: url(&quot;/adm_assets/img/293271_replay_restart_refresh_icon.png&quot;) center / contain;">
+                            </div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                        </div>
+                        <div class="row" style="margin-top: 1%;">
+                            <p>
+                                Please select month and year to construct the sales graph.
+                            </p>                           
+                        </div>  
+                        <div id="saleschartContainer">
+    
+                        </div>
+                    </div>
+                    <div class="container" style="position: relative; margin-top:450px">
+                        <div class="row">
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button id="categoryDropdown_button" class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="margin-top: 0px;">Category</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Βρεφικά Είδη', 'category'); bringSubcategories('Βρεφικά Είδη')">Βρεφικά Είδη</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Καθαριότητα', 'category'); bringSubcategories('Καθαριότητα')">Καθαριότητα</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Ποτά - Αναψυκτικά', 'category'); bringSubcategories('Ποτά - Αναψυκτικά')">Ποτά - Αναψυκτικά</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Προσωπική φροντίδα', 'category'); bringSubcategories('Προσωπική φροντίδα')">Προσωπική Φροντίδα</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Τρόφιμα', 'category'); bringSubcategories('Τρόφιμα')">Τρόφιμα</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Αντισηπτικά', 'category'); bringSubcategories('Αντισηπτικά')">Αντισηπτικά</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Προστασία Υγείας', 'category'); bringSubcategories('Προστασία Υγείας')">Προστασία Υγείας</a>
+                                        <a class="dropdown-item" href="#" onclick="changeDropdownButtonText('Για κατοικίδια', 'category'); bringSubcategories('Για κατοικίδια')">Για κατοικίδια</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="dropdown">
+                                    <button id="subcategoryDropdown_button" class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">Subcategory</button>
+                                    <div class="dropdown-menu", id="subcategories_menu" style="max-height: 250px; overflow-y: scroll;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <button id="refreshChart2_button" class="btn btn-primary" type="button" style="width: 24px;height: 24px;  margin-top: 5%; background: url(&quot;/adm_assets/img/293271_replay_restart_refresh_icon.png&quot;) center / contain;"></button>
+                            </div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col"></div>                           
+                        </div>
+                        <div class="row" style="margin-top: 1%;">
+                            <p>
+                                Please select category (and subcategory) for the average discount graph.
+                            </p>
+                        </div>
+                        <div id="discountchartContainer">
+    
+                        </div>
+                    </div>
+            
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab-5">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th> </th>
+                                    <th >USERNAME</th>
+                                    <th style="position: relative; text-align: center;">TOTAL SCORE</th>
+                                    <th style="position: relative; text-align: center;">TOKENS LAST MONTH</th>
+                                    <th style="position: relative; text-align: center;">TOTAL TOKENS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users_tbody">
+    
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav class="pagination-container">
+                        <button class="pagination-button" id="prev-button" title="Previous page" aria-label="Previous page">
+                          &lt;
+                        </button>
+                        
+                        <div id="pagination-numbers">
+                        </div>
+                        
+                        <button class="pagination-button" id="next-button" title="Next page" aria-label="Next page">
+                          &gt;
+                        </button>
+                      </nav>
+                </div>
+            </div>
+        </div>
+    </div>    
     <script src="/adm_assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     
@@ -204,7 +282,6 @@
     let fetched_categories = false;
     let fetched_stats = false;
     let fetched_leaderboard = false;
-    let user_mode = false;
 
     //interactive DOM elements 
     //TABS
@@ -268,12 +345,12 @@
                 res.forEach(item => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td style="width:20px; position: relative;"><input type="checkbox" name="productCheckbox"></td>
-                        <td style="width: 70px; position: relative; text-align: center;">${item.id}\t\t\t</td>
-                        <td style="width:400px; position: relative;">${item.pnm}</td>
-                        <td style="width:200px;position: relative; text-align: center;">${item.avgprice_yesterday}</td>
-                        <td style="width: 180px; position: relative;">${item.snm}</td>
-                        <td style="width: 180px; position: relative; text-align: center;">${item.cnm}</td>
+                        <td style="position: relative;"><input type="checkbox" name="productCheckbox"></td>
+                        <td style="position: relative; text-align: center;">${item.id}\t\t\t</td>
+                        <td style="width:40%; position: relative;">${item.pnm}</td>
+                        <td style="width:20%; position: relative; text-align: center;">${item.avgprice_yesterday}</td>
+                        <td style="position: relative; text-align: center;">${item.snm}</td>
+                        <td style="position: relative; text-align: center;">${item.cnm}</td>
                     `;
                     prodtable.appendChild(row);
                 });   
@@ -286,6 +363,7 @@
     
     function populateCategoriesTable(){
         const cattable = document.getElementById("categories_tbody");
+        cattable.innerHTML = '';
         //bring db data
         let categories = fetchAPI('/admin/subcategories', "GET");
         categories.then((res) => {
@@ -293,11 +371,11 @@
                 res.forEach(item => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td><input type="checkbox" name="subcategoryCheckbox"></td>
-                        <td>${item.id}</td>
-                        <td>${item.subname}</td>
-                        <td>${item.categories_id}</td>
-                        <td>${item.name}</td>
+                        <td><input type="checkbox" name="subcategoryCheckbox" style="text-align: center;"></td>
+                        <td style="text-align: center;">${item.id}</td>
+                        <td style="text-align: center;">${item.subname}</td>
+                        <td style="text-align: center;">${item.categories_id}</td>
+                        <td style="text-align: center;">${item.name}</td>
                         
                     `;
                     cattable.appendChild(row);
@@ -310,6 +388,7 @@
     
     function populateStoresTable(){
         const storestable = document.getElementById("stores_tbody");
+        storestable.innerHTML='';
 
         //get post or what??
         let stores = fetchAPI('/admin/stores', "GET");
@@ -321,11 +400,11 @@
                     const row = document.createElement('tr');
                     if (item.name == null) item.name = "unknown";
                     row.innerHTML = `
-                        <td><input type="checkbox" name="storeCheckbox"></td>
-                        <td>${item.id}</td>
-                        <td>${item.lat}</td>
-                        <td>${item.lon}</td>
-                        <td>${item.name}</td>
+                        <td><input type="checkbox" name="storeCheckbox" style="text-align: center;"></td>
+                        <td style="text-align: center;">${item.id}</td>
+                        <td style="text-align: center;">${item.lat}</td>
+                        <td style="text-align: center;">${item.lon}</td>
+                        <td style="text-align: center;">${item.name}</td>
                     `;                    
                     storestable.appendChild(row);        
                 });
@@ -342,12 +421,17 @@
     function deleteProducts(){
         const selectedRows = document.querySelectorAll("input[name='productCheckbox']:checked");
         const selectedIds = Array.from(selectedRows).map(row => parseInt(row.parentElement.nextElementSibling.textContent));
-
+        console.log("Ids to delete: ", selectedIds);
         // Send a request to the Express.js server to delete the selected products
         let todel = fetchAPI('/admin/delprods', "POST", selectedIds);
         //promise pending??
-        todel.then((res) => {
-            console.log(res, " at least something is working now");
+        todel.then((result) => {
+            if (result.success){
+                selectedRows.forEach(row => {
+                    let rowToDelete = row.closest("tr");
+                    rowToDelete.remove();
+                })
+            }        
         })
     }
 
@@ -357,14 +441,12 @@
 
         // Send a request to the Express.js server to delete the selected products
         let todel = fetchAPI('/admin/delcats', "POST", selectedIds);
-        todel.then((response) => {
-        if (response.ok) {
+        todel.then((result) => {
+        if (result.success) {
             selectedRows.forEach(row => {
                 let rowToDelete = row.closest("tr");
                 rowToDelete.remove();
             })
-            fetched_categories = false;
-            populateCategoriesTable();
         } else {
             console.error("Failed to delete products");
         }
@@ -377,14 +459,12 @@
 
         // Send a request to the Express.js server to delete the selected products
         let todel = fetchAPI('/admin/delstores', "POST", selectedIds);
-        todel.then((response) => {
-        if (response.ok) {
+        todel.then((result) => {
+        if (result.success) {
             selectedRows.forEach(row => {
                 let rowToDelete = row.closest("tr");
                 rowToDelete.remove();
             })
-            fetched_stores = false;
-            populateStoresTable();
         } else {
             console.error("Failed to delete products");
         }
@@ -486,60 +566,60 @@
 
     //------------ Leaderboard Functions ---------------//
     function displayleaderboard(){
-        if (fetched_leaderboard == false){
-            //bring all users
-            let leadusers = fetchAPI('/admin/leaderboard', "GET");
-            leadusers.then((result) => {
-                //CONSTRUCT PAGINATION DYNAMICALLY
-                pagesNum = Math.ceil(result.length/10);
-                let pagesnumbuttons = document.getElementById("pagination-numbers");
-                for (let i=1; i<=pagesNum; i++){
-                    const pageNumber = document.createElement("button");
-                    pageNumber.className = "pagination-number";
-                    pageNumber.innerHTML = i;
-                    pageNumber.setAttribute("page-index", i);
-                    pageNumber.setAttribute("aria-label", "Page " + i);
+        //bring all users
+        let leadusers = fetchAPI('/admin/leaderboard', "GET");
+        leadusers.then((result) => {
+            //CONSTRUCT PAGINATION DYNAMICALLY
+            pagesNum = Math.ceil(result.length/10);
+            let pagesnumbuttons = document.getElementById("pagination-numbers");
+            for (let i=1; i<=pagesNum; i++){
+                const pageNumber = document.createElement("button");
+                pageNumber.className = "pagination-number";
+                pageNumber.innerHTML = i;
+                pageNumber.setAttribute("page-index", i);
+                pageNumber.setAttribute("aria-label", "Page " + i);
 
-                    pagesnumbuttons.appendChild(pageNumber);
+                pagesnumbuttons.appendChild(pageNumber);
+            }
+
+            //add Event Listeners on all pagination number buttons
+            document.querySelectorAll(".pagination-number").forEach((button) => {
+                const pageIndex = Number(button.getAttribute("page-index"));
+                if (pageIndex) {
+                    button.addEventListener("click", () => {
+                        setCurrentPage(pageIndex);
+                    });
                 }
-
-                //add Event Listeners on all pagination number buttons
-                document.querySelectorAll(".pagination-number").forEach((button) => {
-                    const pageIndex = Number(button.getAttribute("page-index"));
-                    if (pageIndex) {
-                        button.addEventListener("click", () => {
-                            setCurrentPage(pageIndex);
-                        });
-                    }
-                });
-                //add Event Listeners on previous and next buttons
-                document.getElementById("prev-button").addEventListener("click", () => {
-                    setCurrentPage(currentPage - 1);
-                });
-                document.getElementById("next-button").addEventListener("click", () => {
-                    setCurrentPage(currentPage + 1);
-                });
-                
-                //fill up the table
-                let userstable = document.getElementById("users_tbody");
-                userstable.innerHTML = '';
-                let i=1;
-                result.forEach(userdata => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td style="width: 180px; position: relative;">${i}</td>
-                        <td style="width: 70px; position: relative;">${userdata.username}\t\t\t</td>
-                        <td style="width:400px; position: relative; text-align: center;">${userdata.sum_score}</td>
-                        <td style="width:200px;position: relative; text-align: center;">${userdata.monthly_tokens}</td>
-                        <td style="width: 180px; position: relative; text-align: center;">${userdata.sum_tokens}</td>`;
-                    userstable.appendChild(row);
-                    i++;
-                });
-                //hide everything but page 1
-                setCurrentPage(1);
+            });
+            //add Event Listeners on previous and next buttons
+            document.getElementById("prev-button").addEventListener("click", () => {
+                setCurrentPage(currentPage - 1);
+            });
+            document.getElementById("next-button").addEventListener("click", () => {
+                setCurrentPage(currentPage + 1);
+            });
+            
+            //fill up the table
+            let userstable = document.getElementById("users_tbody");
+            userstable.innerHTML = '';
+            let i=1;
+            result.forEach(userdata => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="width: 180px; position: relative;">${i}</td>
+                    <td style="width: 70px; position: relative;">${userdata.username}\t\t\t</td>
+                    <td style="width:400px; position: relative; text-align: center;">${userdata.sum_score}</td>
+                    <td style="width:200px;position: relative; text-align: center;">${userdata.monthly_tokens}</td>
+                    <td style="width: 180px; position: relative; text-align: center;">${userdata.sum_tokens}</td>`;
+                userstable.appendChild(row);
+                i++;
             });
             fetched_leaderboard = true;
-        }
+            //hide everything but page 1
+            setCurrentPage(1);
+        });
+        fetched_leaderboard = true;
+        
     }
 
     const setCurrentPage = (pageNum) => {
@@ -622,20 +702,12 @@
         });
 
         leaderstab.addEventListener('click', () => {
-            displayleaderboard();
-        });
+            if (fetched_leaderboard == false)
+                displayleaderboard();
+        }); 
 
         modetab.addEventListener('click', () => {
-            //if in admin mode, redirect to user page 
-            if (user_mode == false){
-                window.location.href = '/users/homepage.html';
-                user_mode = true;
-            }
-            //we need a button in the homepage to return back to admin_main.html
-            else {
-                window.location.href = '/admin/admin_main.html';
-                user_mode = false;
-            }
+            window.location.href = '/users/homepage.html';
         })
         
         logouttab.addEventListener('click', () => {
@@ -644,12 +716,6 @@
     }
 
     function initializeButtonEventListeners(){
-        profsettings_btn.addEventListener('click', () => {
-            //redirect to profile settings page
-            console.log('Redirecting to Home Page');
-              window.location.href = '/users/homepage.html';
-        });
-
         deleteproducts_btn.addEventListener('click', ()=>{
             deleteProducts();
         });
