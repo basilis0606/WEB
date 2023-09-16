@@ -12,9 +12,15 @@
   border-color: #e2e5c5;
 }
 
-.btn-primary:active {
-  background-color: #e2e5c5;
+.custom-active:not(:disabled):not(:disabled):active {
+  background-color: #b2c29d;
   border-color: #b2c29d;
+}
+
+.custom-focus:focus {
+  border-color: #b2c29d; 
+  box-shadow: 0 0 5px #b2c29d; 
+  transition: border-color 0.3s, box-shadow 0.3s; 
 }
 
 .btn-primary:disabled, .btn-danger:disabled {

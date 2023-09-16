@@ -179,7 +179,7 @@ export async function storeInfo(storeId) {
 	}
 }
 
-export async function storesFromCategory(categoryId) {
+export async function storesFromCategory(categoryName) {
 	try {
 		const query = `SELECT stores.id, stores.name, stores.lon, stores.lat, stores.sale_exists
                    FROM categories
@@ -187,9 +187,9 @@ export async function storesFromCategory(categoryId) {
                    INNER JOIN products ON subcategories.id = products.subcategories_id
                    INNER JOIN sales ON products.id = sales.product_id
                    INNER JOIN stores ON stores.id = sales.store_id
-                   WHERE categories.id = ?`;
+                   WHERE categories.name = ?`;
 
-		const result = await mariadb.paramQuery(query, [categoryId]);
+		const result = await mariadb.paramQuery(query, [categoryName]);
 
 		const stores_geojson = {
 			type: "FeatureCollection",

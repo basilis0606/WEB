@@ -27,10 +27,10 @@ routerStores.get('/:id', async (req, res) => {
   }
 });
 
-routerStores.get('/categories/:id', async (req, res) => {
+routerStores.get('/categories/:name', async (req, res) => {
   try {
-    const categoryId = req.params.id;
-    const storesData = await storesFromCategory(categoryId);
+    const category = req.params.name;
+    const storesData = await storesFromCategory(category);
     res.send(JSON.stringify(storesData));
   } catch (error) {
     res.status(500).send('Error 500: Internal server error.');
