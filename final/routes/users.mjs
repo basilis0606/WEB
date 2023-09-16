@@ -38,7 +38,6 @@ routerUsers.get('/username', (req, res) => {
 routerUsers.get('/info', async (req, res) => {
   let userId = req.session.userId;
   let userInfo = getUserInfo(userId);
-  console.log("This from the info", userInfo);
 
   userInfo.then((result) => {
     if (result.success) {
