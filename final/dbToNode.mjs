@@ -179,6 +179,7 @@ export async function storeInfo(storeId) {
 	}
 }
 
+// Added a commnet
 export async function storesFromCategory(categoryName) {
 	try {
 		const query = `SELECT stores.id, stores.name, stores.lon, stores.lat, stores.sale_exists
