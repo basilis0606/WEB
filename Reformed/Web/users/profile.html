@@ -255,6 +255,105 @@
         document.getElementById('newPassword').value = '';
     };
 
+    //------------------ FETCH LIKE ACTIVITY ----------------------//
+
+    function fetchLikes() {
+      fetchAPI('/users/likes', 'GET')
+      .then(response => {
+        const likes = response.userLikes;
+        console.log("Likes:", JSON.stringify(likes));
+
+        const likesTableBody = document.getElementById('likesTable').getElementsByTagName('tbody')[0];
+        
+        likesTableBody.innerHTML = '';
+
+        likes.forEach(like => {
+          const likeTableRow = document.createElement('tr');
+          const likeTableRowOffer = document.createElement('td');
+          const likeTableRowLocation = document.createElement('td');
+
+          likeTableRowOffer.textContent = like.product_name;
+          likeTableRowLocation.textContent = like.store_name;
+
+          likeTableRow.appendChild(likeTableRowOffer);
+          likeTableRow.appendChild(likeTableRowLocation);
+          likesTableBody.appendChild(likeTableRow);
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
+    fetchLikes();
+
+    //------------------ FETCH DISLIKE ACTIVITY ----------------------//
+    function fetchDislikes() {
+        fetchAPI('/users/dislikes', 'GET')
+        .then(dislikes => {
+          const dislikesArray = dislikes.userDislikes;
+          console.log("Dislikes:", JSON.stringify(dislikesArray));
+
+          const dislikesTableBody = document.getElementById('dislikesTable').getElementsByTagName('tbody')[0];
+
+          // Clear existing rows
+          dislikesTableBody.innerHTML = '';
+
+          dislikesArray.forEach(dislike => {
+            const dislikeTableRow = document.createElement('tr');
+            const dislikeTableRowOffer = document.createElement('td');
+            const dislikeTableRowLocation = document.createElement('td');
+
+            dislikeTableRowOffer.textContent = dislike.product_name;
+            dislikeTableRowLocation.textContent = dislike.store_name;
+
+            dislikeTableRow.appendChild(dislikeTableRowOffer);
+            dislikeTableRow.appendChild(dislikeTableRowLocation);
+            dislikesTableBody.appendChild(dislikeTableRow);
+          });
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      }
+      fetchDislikes();
+
+      //------------------ FETCH POSTED OFFERS ----------------------//
+      function fetchSubmittedOffers() {
+        fetchAPI('/users/submitted-offers', 'GET')
+        .then(response => {
+          const offersArray = response.userOffers;
+          console.log("Submitted Offers:", JSON.stringify(offersArray));
+
+          const offersTableBody = document.getElementById('postedOffersTable').getElementsByTagName('tbody')[0];
+
+          // Clear existing rows
+          offersTableBody.innerHTML = '';
+
+          offersArray.forEach(offer => {
+            const offerTableRow = document.createElement('tr');
+            const offerTableRowOffer = document.createElement('td');
+            const offerTableRowLocation = document.createElement('td');
+            const offerTableRowPrice = document.createElement('td');
+            const offerTableRowPosted = document.createElement('td');
+
+            offerTableRowOffer.textContent = offer.product_name;
+            offerTableRowLocation.textContent = offer.store_name;
+            offerTableRowPrice.textContent = offer.price;
+            offerTableRowPosted.textContent = new Date(offer.date_created).toLocaleDateString();  // format the date to a more user-friendly string
+
+            offerTableRow.appendChild(offerTableRowOffer);
+            offerTableRow.appendChild(offerTableRowLocation);
+            offerTableRow.appendChild(offerTableRowPrice);
+            offerTableRow.appendChild(offerTableRowPosted);
+            offersTableBody.appendChild(offerTableRow);
+          });
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      }
+      fetchSubmittedOffers();
+
 
   </script>
 

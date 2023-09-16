@@ -162,13 +162,22 @@ export async function registerUser(username, email, password) {
 /*================================ Likes user did ================================ */
 export async function getLikes(userId) {
     try {
-        const query = ``;
+        const query = `SELECT
+                            p.name AS product_name,
+                            st.name AS store_name
+                        FROM
+                            likes l
+                        JOIN sales s ON l.sales_id = s.id
+                        JOIN stores st ON s.store_id = st.id
+                        JOIN products p ON s.product_id = p.id
+                        WHERE
+                            l.user_liked = ?`;
         const result = await mariadb.paramQuery(query, [userId]);
 
         if (result.length > 0) {
-            return { success: true, userInfo: result[0] };
+            return { success: true, userLikes: result };
         } else {
-            return { success: false, message: 'User not found.' };
+            return { success: false, message: 'No likes found for the user.' };
         }
     } catch (error) {
         console.error('Error getting user likes:', error);
@@ -179,13 +188,22 @@ export async function getLikes(userId) {
 /*================================ Dislikes user did ================================ */
 export async function getDislikes(userId) {
     try {
-        const query = ``;
+        const query = `SELECT
+                            p.name AS product_name,
+                            st.name AS store_name
+                        FROM
+                            dislikes d
+                        JOIN sales s ON d.sales_id = s.id
+                        JOIN stores st ON s.store_id = st.id
+                        JOIN products p ON s.product_id = p.id
+                        WHERE
+                            d.user_disliked = ?`;
         const result = await mariadb.paramQuery(query, [userId]);
 
         if (result.length > 0) {
-            return { success: true, userInfo: result[0] };
+            return { success: true, userDislikes: result };
         } else {
-            return { success: false, message: 'User not found.' };
+            return { success: false, message: 'No dislikes found for the user.' };
         }
     } catch (error) {
         console.error('Error getting user dislikes:', error);
@@ -193,23 +211,35 @@ export async function getDislikes(userId) {
     }
 }
 
+
 /*================================ Offers user did ================================ */
 
-export async function getOffers(userId) {
+export async function getSubmittedOffers(userId) {
     try {
-        const query = ``;
+        const query = `SELECT
+                            p.name AS product_name,
+                            st.name AS store_name,
+                            s.price,              
+                            s.date_created     
+                        FROM
+                            sales s
+                        JOIN stores st ON s.store_id = st.id
+                        JOIN products p ON s.product_id = p.id
+                        WHERE
+                            s.user_suggested = ?`;
         const result = await mariadb.paramQuery(query, [userId]);
 
         if (result.length > 0) {
-            return { success: true, userInfo: result[0] };
+            return { success: true, userOffers: result };
         } else {
-            return { success: false, message: 'User not found.' };
+            return { success: false, message: 'No offers found for this user.' };
         }
     } catch (error) {
-        console.error('Error getting user offers:', error);
+        console.error('Error getting user submitted offers:', error);
         return { success: false, message: 'An internal error occurred.' };
     }
 }
+
 
 /*=============================== Usefull Funtions =============================== */
 

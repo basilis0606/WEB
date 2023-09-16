@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import path from 'path';
 import * as url from 'url';
 import express from 'express';
-import { getUserInfo, getUserPassword, updateCredentials } from '../dbToNode.mjs';
+import { getUserInfo, getUserPassword, updateCredentials, tableInfo, getLikes, getDislikes, getSubmittedOffers } from '../dbToNode.mjs';
 
 const password_regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
 
@@ -80,3 +80,74 @@ routerUsers.post('/update-credentials', async (req, res) => {
   }
 });
 
+//=========================GET USER LIKES=========================
+routerUsers.get('/likes', async (req, res) => {
+  let userId = req.session.userId;
+  try {
+    let likes = await getLikes(userId);
+    if (likes.success) {
+      res.status(200).json(likes);
+    } else {
+      res.status(404).json({ message: likes.message });  // Using 404 if no likes found
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+//=========================GET USER DISLIKES=========================
+routerUsers.get('/dislikes', async (req, res) => {
+  let userId = req.session.userId;
+  let dislikes = getDislikes(userId);
+
+  dislikes.then((result) => {
+    if (result.success) {
+      res.status(200).json(result);
+    }
+    else {
+      res.status(404).json({ message: result.message });
+    }
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  });
+});
+
+
+//=========================GET USER SALES HISTORY=========================
+routerUsers.get('/sales-history', async (req, res) => {
+  let userId = req.session.userId;
+  let salesHistory = tableInfo('sales_history', userId);
+
+  salesHistory.then((result) => {
+    if (result.success) {
+      res.status(200).json(result);
+    }
+    else {
+      res.status(404).json({ message: result.message });
+    }
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  });
+});
+
+//=========================GET USER SUBMIT HISTORY=========================
+routerUsers.get('/submitted-offers', async (req, res) => {
+  let userId = req.session.userId;
+  let offers = getSubmittedOffers(userId);
+
+  offers.then((result) => {
+    if (result.success) {
+      res.status(200).json(result);
+    }
+    else {
+      res.status(401).json({ message: result.message });
+    }
+  }).catch((error) => {
+    console.log(error);
+    res.status(500).json({ message: 'Internal server error' });
+  });
+});

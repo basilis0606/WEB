@@ -2,7 +2,7 @@
 
 import * as url from 'url';
 import { getUserPassword, registerUser } from './dbToNode.mjs';
-import { getUserInfo, updateCredentials } from './dbToNode.mjs';
+import { getUserInfo, updateCredentials, getLikes, getDislikes, getSubmittedOffers } from './dbToNode.mjs';
 import { routerUsers } from './routes/users.mjs';
 
 //test getUserInfo
@@ -11,7 +11,7 @@ import { routerUsers } from './routes/users.mjs';
 //test ok
 
 //test getUserPassword
-l//et user = await getUserPassword(58);
+//let user = await getUserPassword(58);
 //console.log(user);
 //test ok
 
@@ -28,3 +28,14 @@ l//et user = await getUserPassword(58);
 //let user = await registerUser('mpill','basilis0606@protonmail.com', 'Basilis06!');
 //console.log(user);
 
+//test getLikes
+let user = await getLikes(12);
+console.log(user);
+
+//test getDislikes
+//let user1 = await getDislikes(12);
+//console.log(user1);
+
+//test getOffers
+//let user2 = await getSubmittedOffers(12);
+//console.log(user2);
