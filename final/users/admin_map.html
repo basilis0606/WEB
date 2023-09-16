@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>haggle</title>
+    <title>haggle - Admin View</title>
     <!-- Title icon -->
     <link rel="icon" href="/img/location-dot.svg" type="image/x-icon" />
     <!-- Bootstrap -->
@@ -148,9 +148,9 @@
                                                         <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                                                         &nbsp;Profile
                                                     </a>
-                                                    <a class="custom-active dropdown-item" href="#">
+                                                    <a class="custom-active dropdown-item" href="#" onclick="backToAdminSettings()">
                                                         <i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>
-                                                        &nbsp;Settings
+                                                        &nbsp;Admin Settings
                                                     </a>
                                                     <div class="dropdown-divider"></div>
                                                     <a class="custom-active dropdown-item" href="#" onclick="logout()">
@@ -461,7 +461,7 @@
         const card_addSaleDropdownDiv = document.getElementById('card_addSaleDropdownDiv');
         const card_backBtn = document.getElementById('card_backBtn');
 
-        // Function to display the store info 
+        // Function to display the store info
         function displayStoreInfoInCard(storeInfo, storeSales) {
 
             // Clear the previous information
@@ -478,7 +478,7 @@
             card_backBtn.classList.add('d-none');
             card_detailedSale.classList.add('d-none');
 
-            // Add the store name 
+            // Add the store name
             const storeName = (storeInfo.properties.name || 'Unknown');
             card_storeName.textContent = storeName;
 
@@ -541,7 +541,7 @@
                     }
 
                     const enabled = sale.stock && (distanceWithUser < 50);
-                    const likeDislikeButtonsContainer = createLikeDislikeButtons(sale, enabled);
+                    const buttons = createLikeDislikeDeleteButtons(sale, enabled, saleItem);
 
                     // Append the elements to the sale item
                     // Sale Left
@@ -557,7 +557,7 @@
 
                     // saleItem
                     saleItem.appendChild(saleLeft);
-                    saleItem.appendChild(likeDislikeButtonsContainer);
+                    saleItem.appendChild(buttons);
 
                     // Append the sale item to the sales list 
                     card_salesList.appendChild(saleItem);
@@ -565,7 +565,26 @@
             }
         }
 
-        function createLikeDislikeButtons(sale, enabled) {
+        function handleDeleteSaleClick(sale, saleItem) {
+            const id = sale.id;
+
+            fetchAPI(`/admin/sales/delete/${id}`, 'DELETE', {})
+                .then((data) => {
+                    if (data.success) {
+                        // Remove the sale item from the UI
+                        saleItem.remove();
+                    } else {
+                        // Handle other errors
+                        console.error('Failed to delete sale:', data.message);
+                    }
+                })
+                .catch((error) => {
+                    // Handle fetchAPI errors
+                    console.error('Fetch API error:', error);
+                });
+        }
+
+        function createLikeDislikeDeleteButtons(sale, enabled, saleItem) {
             const container = document.createElement('div');
             container.classList.add('d-flex', 'align-items-center');
 
@@ -582,12 +601,18 @@
             dislikeButton.style.fontSize = '12px';
             dislikeButton.innerHTML = `<i class="fa-solid fa-thumbs-down fa-xs"></i> ${sale.dislikes_num}`;
 
+            // Delete Sale button
+            const deleteSaleButton = document.createElement('button');
+            deleteSaleButton.type = 'button';
+            deleteSaleButton.classList.add('custom-active', 'btn', 'btn-danger', 'py-0', 'px-2');
+            deleteSaleButton.style.marginLeft = '6px';
+            deleteSaleButton.style.fontSize = '12px';
+            deleteSaleButton.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+
             if (!enabled) {
                 likeButton.disabled = true;
                 dislikeButton.disabled = true;
             }
-            container.appendChild(likeButton);
-            container.appendChild(dislikeButton);
 
             // Add event listeners for like and dislike buttons
             likeButton.addEventListener('click', () => {
@@ -597,6 +622,14 @@
             dislikeButton.addEventListener('click', () => {
                 handleDislikeClick(sale, dislikeButton);
             });
+
+            deleteSaleButton.addEventListener('click', () => {
+                handleDeleteSaleClick(sale, saleItem);
+            });
+
+            container.appendChild(likeButton);
+            container.appendChild(dislikeButton);
+            container.appendChild(deleteSaleButton);
 
             return container;
         }
@@ -1167,6 +1200,13 @@
             }
         });
 
+        // Update User location on map click
+        map.on('click', (e) => {
+            userLocation.lat = e.latlng.lat;
+            userLocation.lng = e.latlng.lng;
+            userMarker.setLatLng(userLocation);
+        });
+
         // ===================== Logout =====================
 
         function logout() {
@@ -1188,6 +1228,12 @@
                 .catch(error => {
                     console.error('Error during server logout:', error);
                 });
+        }
+
+        // ===================== Admin Settings =====================
+
+        function backToAdminSettings(){
+            window.location.href = '/adminSettings.html';
         }
 
     </script>

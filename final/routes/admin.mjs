@@ -400,5 +400,15 @@ adminRouter.get('/leaderboard', (req, res) => {
     })
 });
 
-
+adminRouter.delete('/sales/delete/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = `DELETE FROM sales WHERE id = ?;`;
+        await mariadb.paramQuery(query, [id]);
+        res.json({ success: true, message: 'Sale deleted successfully' });
+    } catch (error) {
+        console.error('Error in /sales/delete/:id:', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+});
  

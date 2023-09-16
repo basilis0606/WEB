@@ -171,7 +171,7 @@ server.use('/api/categories', auth, routerCategories);
 server.use('/api/sales', auth, routerSales);
 
 server.use('/users/', auth, routerUsers);
-server.use('/admin', adminauth, adminRouter);
+server.use('/admin/', adminauth, adminRouter);
 
 // The use function on the server will be executed
 // For every request, if a server.use call is used
