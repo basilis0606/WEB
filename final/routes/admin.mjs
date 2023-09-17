@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 //use of static admin home page assets
-adminRouter.use('/', express.static(path.join( __dirname, 'users')));
+adminRouter.use('/', express.static(path.join( __dirname, 'admin')));
 
 /*====================== DB Updates =====================*/
 

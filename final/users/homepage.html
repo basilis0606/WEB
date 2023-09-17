@@ -47,7 +47,7 @@
                                     <!-- Logo and Name -->
                                     <div class="d-flex justify-content-center align-items-center ml-4">
                                         <i class="fa-solid fa-location-dot fa-xl my-0"></i>
-                                        <h3 class="ml-2 mx-3 my-0">haggle: </h3>
+                                        <h3 class="ml-2 mx-3 my-0">haggle </h3>
                                     </div>
 
                                     <!-- Search fields if window is large enough -->
@@ -926,6 +926,19 @@
         });
         storeNameCollapsedButton.addEventListener('click', () => {
             filterStoresByName(storeNameCollapsedInput.value.toLowerCase());
+        });
+
+        // Add event listeners to the search inputs
+        storeNameExtendedInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                filterStoresByName(storeNameExtendedInput.value.toLowerCase());
+            }
+        });
+
+        storeNameCollapsedInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                filterStoresByName(storeNameCollapsedInput.value.toLowerCase());
+            }
         });
 
         // ===================== Search Stores from Category =====================
