@@ -10,7 +10,7 @@ export const routerStores = express.Router();
 routerStores.get('/', async (req, res) => {
   try {
     const storesData = await stores;
-    res.send(JSON.stringify(storesData));
+    res.send(storesData);
   } catch (error) {
     res.status(500).send('Error 500: Internal server error.');
   }
@@ -21,7 +21,7 @@ routerStores.get('/:id', async (req, res) => {
   try {
     const storeId = req.params.id;
     const storeData = await storeInfo(storeId);
-    res.send(JSON.stringify(storeData));
+    res.send(storeData);
   } catch (error) {
     res.status(500).send('Error 500: Internal server error.');
   }
@@ -31,7 +31,7 @@ routerStores.get('/categories/:name', async (req, res) => {
   try {
     const category = req.params.name;
     const storesData = await storesFromCategory(category);
-    res.send(JSON.stringify(storesData));
+    res.send(storesData);
   } catch (error) {
     res.status(500).send('Error 500: Internal server error.');
   }

@@ -586,17 +586,18 @@
                 likeButton.disabled = true;
                 dislikeButton.disabled = true;
             }
-            container.appendChild(likeButton);
-            container.appendChild(dislikeButton);
-
+            
             // Add event listeners for like and dislike buttons
             likeButton.addEventListener('click', () => {
                 handleLikeClick(sale, likeButton);
             });
-
+            
             dislikeButton.addEventListener('click', () => {
                 handleDislikeClick(sale, dislikeButton);
             });
+            
+            container.appendChild(likeButton);
+            container.appendChild(dislikeButton);
 
             return container;
         }

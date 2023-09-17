@@ -47,7 +47,7 @@
                                     <!-- Logo and Name -->
                                     <div class="d-flex justify-content-center align-items-center ml-4">
                                         <i class="fa-solid fa-location-dot fa-xl my-0"></i>
-                                        <h3 class="ml-2 mx-3 my-0">haggle: </h3>
+                                        <h3 class="ml-2 mx-3 my-0">haggle </h3>
                                     </div>
 
                                     <!-- Search fields if window is large enough -->
@@ -144,7 +144,7 @@
                                                     <i class="fa-solid fa-address-card"></i>
                                                 </a>
                                                 <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-                                                    <a class="custom-active dropdown-item" href="#">
+                                                    <a class="custom-active dropdown-item" href="/users/profile.html">
                                                         <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                                                         &nbsp;Profile
                                                     </a>
@@ -959,6 +959,19 @@
         });
         storeNameCollapsedButton.addEventListener('click', () => {
             filterStoresByName(storeNameCollapsedInput.value.toLowerCase());
+        });
+
+        // Add event listeners to the search inputs
+        storeNameExtendedInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                filterStoresByName(storeNameExtendedInput.value.toLowerCase());
+            }
+        });
+
+        storeNameCollapsedInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                filterStoresByName(storeNameCollapsedInput.value.toLowerCase());
+            }
         });
 
         // ===================== Search Stores from Category =====================
