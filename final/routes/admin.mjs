@@ -201,7 +201,7 @@ adminRouter.post('/uploadprods', upload.single('file'), (req, res) => {
             }
             await mariadb.commit();
             //reload page to update table (all data is refetched from db)
-            res.redirect('/users/admin_main.html');
+            res.redirect('/admin/admin_main.html');
         }catch (err) {
             console.error('Error while json to DB:', err);
             return res.status(400).send('Internal Server Error.');
@@ -232,7 +232,7 @@ adminRouter.post('/uploadcats', upload.single('file'), (req, res) => {
             })
             await mariadb.commit();
             //reload page to update table (all data is refetched from db)
-            res.redirect('/users/admin_main.html');
+            res.redirect('/admin/admin_main.html');
             res.send('File uploaded and database updated successfully!');
         }catch (err) {
             console.error('Error while json to DB:', err);
@@ -265,7 +265,7 @@ adminRouter.post('/uploadstores', upload.single('file'), (req, res) => {
             })
             await mariadb.commit();
             //reload page to update table (all data is refetched from db)
-            res.redirect('/users/admin_main.html');
+            res.redirect('/admin/admin_main.html');
         }catch (err) {
             console.error('Error while json to DB:', err);
             return res.status(400).send('Internal Server Error.');
