@@ -1,7 +1,8 @@
 "use strict";
 
 // Import the needed modules
-import * as url from 'url'
+import path from 'path';
+import * as url from 'url';
 import express from 'express';
 import session from 'express-session';
 
@@ -41,7 +42,7 @@ export function auth(req, res, next) {
 
 		next(); // User is authenticated, continue to the next middleware/route
 	} else {
-    res.status(401).json({message: "unauthorized"})
+    res.status(401).sendFile(path.join(__dirname, 'public', 'login.html'));
 	}
 }
 
@@ -57,7 +58,7 @@ export function adminauth(req, res, next) {
 
 		next(); // User is authenticated, continue to the next middleware/route
 	} else {
-    res.status(401).json({message: "unauthorized"})
+    res.status(401).sendFile(path.join(__dirname, 'public', 'login.html'));
 	}
 }
 // 1. Consider creating a errorhandler middleware

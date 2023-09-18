@@ -326,16 +326,12 @@
             return await fetch(url, requestOptions)
                 .then(async (response) => {
                     if (response.status === 401) {
-                        // Check if the response includes an "unauthorized" message
-                        const errorData = await response.json();
-                        if (errorData.message === 'unauthorized') {
 
-                            console.error('Unauthorized access.');
-                            alert('Session expired. Please login again.');
-                            // Redirect to the login page
-                            window.location.href = '/login.html';
-                            return Promise.reject('Unauthorized access');
-                        }
+                        console.error('Unauthorized access.');
+                        alert('Session expired. Please login again.');
+                        // Redirect to the login page
+                        window.location.href = '/login.html';
+                        return Promise.reject('Unauthorized access');
                     }
 
                     if (!response.ok) {
