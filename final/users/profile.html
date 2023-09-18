@@ -7,6 +7,8 @@
   <title>haggle - Profile</title>
   <!-- Title icon -->
   <link rel="icon" href="/img/location-dot.svg" type="image/x-icon" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/custom.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <!-- Google Fonts Roboto -->
@@ -27,7 +29,7 @@
         <div class="col col-xl-9 col-lg-10 col-md-11" style="width: 100%;">
           <div class="card" style="border-radius: 1rem;">
             <div class="row g-0">
-              <h4 class="text-dark m-4">Profile</h4>
+              <h4 class="text-dark m-4">Profile Settings</h4>
               <div class="row mb-3">
                 <div class="col-lg-4">
                   <div class="card shadow mb-4">
@@ -35,7 +37,8 @@
                       <h6 class="text-primary fw-bold m-0">User's Progress</h6>
                     </div>
                     <div class="card-body">
-                      <h4 class="small fw-bold">Last Months Tokens:<span id="monthlyTokens" class="float-end"></span></h4>
+                      <h4 class="small fw-bold">Last Months Tokens:<span id="monthlyTokens" class="float-end"></span>
+                      </h4>
                       <h4 class="small fw-bold">Total Tokens:<span id="totalTokens" class="float-end"></span></h4>
                       <h4 class="small fw-bold">Monthly Score:<span id="monthlyScore" class="float-end"></span></h4>
                       <h4 class="small fw-bold">Total Score<span id="totalScore" class="float-end"></span></h4>
@@ -53,14 +56,19 @@
                           <form id="updateCredentialsForm" onsubmit="event.preventDefault(); updateCredentials();">
                             <div class="row">
                               <div class="col">
-                                <div class="mb-3"><label class="form-label"
-                                    for="username"><strong>Username</strong></label><input class="form-control"
-                                    type="text" id="username" name="username"></div>
+                                <div class="mb-3">
+                                  <label class="form-label" for="username"><strong><i class="fas fa-user"></i>
+                                      Username</strong></label>
+                                  <input class="custom-focus form-control" type="text" id="username" name="username">
+                                </div>
                               </div>
                               <div class="col">
-                                <div class="mb-3"><label class="form-label" for="email"><strong>Email
-                                      Address</strong></label><input class="form-control" type="email" id="email"
-                                    name="email" disabled></div>
+                                <div class="mb-3">
+                                  <label class="form-label" for="email">
+                                    <strong><i class="fas fa-envelope"></i> Email Address</strong>
+                                  </label>
+                                  <input class="form-control" type="email" id="email" name="email" disabled>
+                                </div>
                               </div>
                             </div>
                             <div class="row">
@@ -174,70 +182,86 @@
   <!-- Custom scripts -->
   <script type="text/javascript">
     //------------------ FETCH API ----------------------//
-          async function fetchAPI(url, method, data = {}) {
-            const requestOptions = {
-                method: method,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            };
-            if (method !== "GET") {
-                requestOptions.body = JSON.stringify(data);
+    async function fetchAPI(url, method, data = {}) {
+      const requestOptions = {
+        method: method,
+        credentials: 'include',
+        redirect: 'follow',
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      if (method !== "GET") {
+        requestOptions.body = JSON.stringify(data);
+      }
+      return await fetch(url, requestOptions)
+        .then(async (response) => {
+          if (response.status === 401) {
+            // Check if the response includes an "unauthorized" message
+            const errorData = await response.json();
+            if (errorData.message === 'unauthorized') {
+
+              console.error('Unauthorized access.');
+              alert('Session expired. Please login again.');
+              // Redirect to the login page
+              window.location.href = '/login.html';
+              return Promise.reject('Unauthorized access');
             }
-            return await fetch(url, requestOptions)
-                .then(response => response.json())
-                .catch(error => {
-                    console.error(error);
-                    throw new Error('Something went wrong. Please try again later.');
-                });
-            }
+          }
+
+          if (!response.ok) {
+            // Handle other errors
+            console.error(`Error: ${response.status}`);
+            throw new Error('Something went wrong. Please try again later.');
+          }
+
+          return response.json();
+        })
+        .catch(error => {
+          console.error(error);
+          throw new Error('Something went wrong. Please try again later.');
+        });
+    }
     //------------------ FETCH INFO ----------------------//
 
-            function fetchUserInfo() {
-              fetchAPI('/users/info', 'GET')
-              .then(userInfo => {
-              console.log("Full userInfo:", JSON.stringify(userInfo));
+    function fetchUserInfo() {
+      fetchAPI('/users/info', 'GET')
+        .then(userInfo => {
+          const usernameInput = document.getElementById('username');
+          const emailInput = document.getElementById('email');
+          document.getElementById('monthlyTokens').textContent = userInfo.userInfo.monthly_tokens;
+          document.getElementById('totalTokens').textContent = userInfo.userInfo.sum_tokens;
+          document.getElementById('monthlyScore').textContent = userInfo.userInfo.monthly_score;
+          document.getElementById('totalScore').textContent = userInfo.userInfo.sum_score;
+          usernameInput.value = userInfo.userInfo.username;
+          emailInput.value = userInfo.userInfo.email;
 
-                  const usernameInput = document.getElementById('username');
-                  const emailInput = document.getElementById('email');
-                  document.getElementById('monthlyTokens').textContent = userInfo.userInfo.monthly_tokens;
-                  document.getElementById('totalTokens').textContent = userInfo.userInfo.sum_tokens;
-                  document.getElementById('monthlyScore').textContent = userInfo.userInfo.monthly_score;
-                  document.getElementById('totalScore').textContent = userInfo.userInfo.sum_score;
-                  usernameInput.value = userInfo.userInfo.username;
-                  emailInput.value = userInfo.userInfo.email;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+    fetchUserInfo();
 
-              })
-              .catch(error => {
-                  console.error(error);
-              });
-              }
-              fetchUserInfo();  
+    //------------------ UPDATE CREDENTIALS ----------------------//
 
-      //------------------ UPDATE CREDENTIALS ----------------------//
+    function updateCredentials() {
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const newPasswordInput = document.getElementById('newPassword');
 
-      function updateCredentials() {
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const newPasswordInput = document.getElementById('newPassword');
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+      const newPassword = newPasswordInput.value;
 
-        const username = usernameInput.value;
-        const password = passwordInput.value;
-        const newPassword = newPasswordInput.value;
+      const data = {
+        username: username,
+        password: password,
+        newPassword: newPassword
+      };
 
-        const data = {
-          username: username,
-          password: password,
-          newPassword: newPassword
-        };
-
-        console.log("Data:", JSON.stringify(data));
-
-        fetchAPI('/users/update-credentials', 'POST', data)
+      fetchAPI('/users/update-credentials', 'POST', data)
         .then(response => {
-          console.log("Full response:", JSON.stringify(response));
-          console.log("Message:", response.message);
-          console.log("Success:", response.success);
 
           if (response.success) {
             alert(response.message);
@@ -249,49 +273,47 @@
         .catch(error => {
           console.error(error);
         });
-      }
-      window.onload = function() {
-        document.getElementById('password').value = '';
-        document.getElementById('newPassword').value = '';
+    }
+    window.onload = function () {
+      document.getElementById('password').value = '';
+      document.getElementById('newPassword').value = '';
     };
 
     //------------------ FETCH LIKE ACTIVITY ----------------------//
 
     function fetchLikes() {
       fetchAPI('/users/likes', 'GET')
-      .then(response => {
-        const likes = response.userLikes;
-        console.log("Likes:", JSON.stringify(likes));
+        .then(response => {
+          const likes = response.userLikes;
 
-        const likesTableBody = document.getElementById('likesTable').getElementsByTagName('tbody')[0];
-        
-        likesTableBody.innerHTML = '';
+          const likesTableBody = document.getElementById('likesTable').getElementsByTagName('tbody')[0];
 
-        likes.forEach(like => {
-          const likeTableRow = document.createElement('tr');
-          const likeTableRowOffer = document.createElement('td');
-          const likeTableRowLocation = document.createElement('td');
+          likesTableBody.innerHTML = '';
 
-          likeTableRowOffer.textContent = like.product_name;
-          likeTableRowLocation.textContent = like.store_name;
+          likes.forEach(like => {
+            const likeTableRow = document.createElement('tr');
+            const likeTableRowOffer = document.createElement('td');
+            const likeTableRowLocation = document.createElement('td');
 
-          likeTableRow.appendChild(likeTableRowOffer);
-          likeTableRow.appendChild(likeTableRowLocation);
-          likesTableBody.appendChild(likeTableRow);
+            likeTableRowOffer.textContent = like.product_name;
+            likeTableRowLocation.textContent = like.store_name;
+
+            likeTableRow.appendChild(likeTableRowOffer);
+            likeTableRow.appendChild(likeTableRowLocation);
+            likesTableBody.appendChild(likeTableRow);
+          });
+        })
+        .catch(error => {
+          console.error(error);
         });
-      })
-      .catch(error => {
-        console.error(error);
-      });
     }
     fetchLikes();
 
     //------------------ FETCH DISLIKE ACTIVITY ----------------------//
     function fetchDislikes() {
-        fetchAPI('/users/dislikes', 'GET')
+      fetchAPI('/users/dislikes', 'GET')
         .then(dislikes => {
           const dislikesArray = dislikes.userDislikes;
-          console.log("Dislikes:", JSON.stringify(dislikesArray));
 
           const dislikesTableBody = document.getElementById('dislikesTable').getElementsByTagName('tbody')[0];
 
@@ -314,15 +336,14 @@
         .catch(error => {
           console.error(error);
         });
-      }
-      fetchDislikes();
+    }
+    fetchDislikes();
 
-      //------------------ FETCH POSTED OFFERS ----------------------//
-      function fetchSubmittedOffers() {
-        fetchAPI('/users/submitted-offers', 'GET')
+    //------------------ FETCH POSTED OFFERS ----------------------//
+    function fetchSubmittedOffers() {
+      fetchAPI('/users/submitted-offers', 'GET')
         .then(response => {
           const offersArray = response.userOffers;
-          console.log("Submitted Offers:", JSON.stringify(offersArray));
 
           const offersTableBody = document.getElementById('postedOffersTable').getElementsByTagName('tbody')[0];
 
@@ -351,8 +372,8 @@
         .catch(error => {
           console.error(error);
         });
-      }
-      fetchSubmittedOffers();
+    }
+    fetchSubmittedOffers();
 
 
   </script>

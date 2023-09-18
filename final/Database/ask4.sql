@@ -1,5 +1,3 @@
-USE web_2023;
-
 DELIMITER $$
 
 CREATE PROCEDURE DistributeTokens()
@@ -40,13 +38,9 @@ DELIMITER ;
 -- Create event
 SET GLOBAL event_scheduler = ON;
 
-DELIMITER $$
-
 CREATE EVENT DistributeTokensEvent
     ON SCHEDULE 
         EVERY 1 MONTH
         STARTS '2023-01-31 23:59:59'
     DO
         CALL DistributeTokens();
-
-DELIMITER ;

@@ -1,46 +1,52 @@
-CREATE OR REPLACE TRIGGER sale_likes_update AFTER INSERT ON likes
+DELIMITER //
+
+CREATE TRIGGER sale_likes_update
+AFTER INSERT ON likes
+FOR EACH ROW
+BEGIN
+    DECLARE user2update INT UNSIGNED;
+
+    UPDATE sales 
+    SET likes_num = likes_num + 1
+    WHERE id = NEW.sales_id;
+    
+    SELECT user_suggested
+    INTO user2update 
+    FROM sales
+    WHERE id = NEW.sales_id;
+
+    UPDATE users
+    SET monthly_score = monthly_score + 5,
+        sum_score = sum_score + 5
+    WHERE id = user2update;
+END; //
+
+DELIMITER ;
+
+DELIMITER $$
+CREATE OR REPLACE TRIGGER sale_wdrawlikes_update AFTER DELETE ON likes
 FOR EACH ROW
     BEGIN
         DECLARE user2update INT UNSIGNED;
 
-        -- update likes number on the sale that was liked by a user
         UPDATE sales 
-        SET likes_num = likes_num+1
-        WHERE id = NEW.sales_id;
-        
-        -- update the score of the user who submitted the sale
+        SET likes_num = likes_num -1 
+        WHERE id = OLD.sales_id;
+
         SELECT user_suggested
         INTO user2update 
         FROM sales
-        WHERE id = NEW.sales_id;
+        WHERE id = OLD.sales_id;
 
         UPDATE users
-        SET monthly_score = monthly_score+5,
-            sum_score = sum_score+5
+        SET monthly_score = monthly_score - 5,
+            sum_score = sum_score - 5
         WHERE id = user2update;
+    END; $$
 
-    END;
+DELIMITER ;
 
-CREATE OR REPLACE TRIGGER sale_wdrawlikes_update AFTER DELETE ON likes
-    FOR EACH ROW
-        BEGIN
-            DECLARE user2update INT UNSIGNED;
-
-            UPDATE sales 
-            SET likes_num = likes_num -1 
-            WHERE id = OLD.sales_id;
-
-            SELECT user_suggested
-            INTO user2update 
-            FROM sales
-            WHERE id = OLD.sales_id;
-
-            UPDATE users
-            SET monthly_score = monthly_score - 5,
-                sum_score = sum_score - 5
-            WHERE id = user2update;
-        END;
-
+DELIMITER $$
 -- @block dislikes_triggers
 CREATE OR REPLACE TRIGGER sale_dilikes_update AFTER INSERT ON dislikes
 FOR EACH ROW
@@ -62,9 +68,11 @@ FOR EACH ROW
         SET monthly_score = monthly_score-1,
             sum_score = sum_score-1
         WHERE id = user2update;
+    END; $$
 
-    END;
+DELIMITER ;
 
+DELIMITER $$
 CREATE OR REPLACE TRIGGER sale_wdrawdislikes_update AFTER DELETE ON dislikes
 FOR EACH ROW
     BEGIN
@@ -72,7 +80,7 @@ FOR EACH ROW
 
         -- update dislikes number on the sale that was liked by a user
         UPDATE sales 
-        SET dislikes_num = dislikes_num+1
+        SET dislikes_num = dislikes_num-1
         WHERE id = OLD.sales_id;
         
         -- update the score of the user who submitted the sale
@@ -85,9 +93,11 @@ FOR EACH ROW
         SET monthly_score = monthly_score + 1,
             sum_score = sum_score + 1
         WHERE id = user2update;
+    END$$
 
-    END;
+DELIMITER ;
 
+DELIMITER $$
 -- @block sales_triggers 
 CREATE OR REPLACE TRIGGER salesub_score_update BEFORE INSERT ON sales
 FOR EACH ROW 
@@ -114,14 +124,18 @@ FOR EACH ROW
             WHERE id = NEW.user_suggested;
             SET NEW.criteria_ok =1;
         END IF;
+    END$$
 
-    END;
+DELIMITER ;
 
+DELIMITER $$
 -- increment sales_exist after insertion of sale.
 CREATE OR REPLACE TRIGGER update_storeSales AFTER INSERT ON sales
 FOR EACH ROW
-	BEGIN
-		UPDATE stores
-		SET sale_exists = sale_exists +1
-		WHERE id = NEW.store_id; 
-	END;
+BEGIN
+	UPDATE stores
+	SET sale_exists = sale_exists +1
+    WHERE id = NEW.store_id; 
+END; $$
+
+DELIMITER ;

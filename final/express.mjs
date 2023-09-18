@@ -41,8 +41,7 @@ export function auth(req, res, next) {
 
 		next(); // User is authenticated, continue to the next middleware/route
 	} else {
-    res.status(401) // User is not authenticated,
-		res.redirect('/login.html'); // redirect to the login page
+    res.status(401).json({message: "unauthorized"})
 	}
 }
 
@@ -58,8 +57,7 @@ export function adminauth(req, res, next) {
 
 		next(); // User is authenticated, continue to the next middleware/route
 	} else {
-    res.status(401) // User is not authenticated,
-		res.redirect('/login.html'); // redirect to the login page
+    res.status(401).json({message: "unauthorized"})
 	}
 }
 // 1. Consider creating a errorhandler middleware

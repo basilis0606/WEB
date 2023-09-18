@@ -30,6 +30,38 @@ MDB_PASS=your_password
 MDB_DBNM=your_database_name
 [Opt] SRV_PORT=your_server_port
 ```
+#### Database Configuration
+1. Create a database in mariadb & use it
+2. Either import the dump file or run the sql script
+If you want to import the dump file:
+  * change the `definer` of the stored procedures from the dump to your username
+  * You can use the following command:
+  ```
+  mysql -u your_username -p your_database_name < dump.sql
+  ```
+If you want to configure it yourself the sql import in the following order:
+```
+createTables.sql
+indexes.sql
+triggers.sql
+procedures.sql
+events.sql
+ask4.sql
+ask5.sql
+```
+Initialize the database with the information of e-katanalotis.gr & random data:
+  * Cd into the `InitScript` directory
+  * Create a python virtual environment: `python3 -m venv venv`
+  * Activate the virtual environment: `source venv/bin/activate`
+  * Install the required packages: `pip install mariadb`
+  * Use the correct Interperter, and change the database information in the script
+  * Run the script: `python database_initialization.py products stores users sales`
+  * In the Mariadb CLI, run the following command:
+  ```
+  UPDATE sales SET active = 1;
+  call daily_sequence();
+  ```
+
 #### Executing the project
 * Make sure you have node.js and npm installed
 * Open project root directory in terminal

@@ -82,12 +82,8 @@ routerUsers.get('/info', async (req, res) => {
 routerUsers.post('/update-credentials', async (req, res) => {
   try {
     let userId = req.session.userId;  
-    console.log(userId);
     const { username, password: currentPassword, newPassword } = req.body;
-    console.log(username, currentPassword, newPassword);
     const currentUserPassword = await getUserPassword(userId);
-    console.log(currentUserPassword.userInfo.passwd);
-    console.log(currentUserPassword);
 
     // Check new password against the regex if it's provided
     if (newPassword && !password_regex.test(newPassword)) {

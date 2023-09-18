@@ -148,7 +148,8 @@
                                                         <i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>
                                                         &nbsp;Profile
                                                     </a>
-                                                    <a class="custom-active dropdown-item" href="#" onclick="backToAdminSettings()">
+                                                    <a class="custom-active dropdown-item" href="#"
+                                                        onclick="backToAdminSettings()">
                                                         <i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>
                                                         &nbsp;Admin Settings
                                                     </a>
@@ -313,6 +314,7 @@
         async function fetchAPI(url, method, data = {}) {
             const requestOptions = {
                 method: method,
+                credentials: 'include',
                 redirect: 'follow',
                 headers: {
                     "Content-Type": "application/json",
@@ -322,7 +324,28 @@
                 requestOptions.body = JSON.stringify(data);
             }
             return await fetch(url, requestOptions)
-                .then(response => response.json())
+                .then(async (response) => {
+                    if (response.status === 401) {
+                        // Check if the response includes an "unauthorized" message
+                        const errorData = await response.json();
+                        if (errorData.message === 'unauthorized') {
+
+                            console.error('Unauthorized access.');
+                            alert('Session expired. Please login again.');
+                            // Redirect to the login page
+                            window.location.href = '/login.html';
+                            return Promise.reject('Unauthorized access');
+                        }
+                    }
+
+                    if (!response.ok) {
+                        // Handle other errors
+                        console.error(`Error: ${response.status}`);
+                        throw new Error('Something went wrong. Please try again later.');
+                    }
+
+                    return response.json();
+                })
                 .catch(error => {
                     console.error(error);
                     throw new Error('Something went wrong. Please try again later.');
@@ -1245,7 +1268,7 @@
 
         // ===================== Admin Settings =====================
 
-        function backToAdminSettings(){
+        function backToAdminSettings() {
             window.location.href = '/admin/admin_main.html';
         }
 
