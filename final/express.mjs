@@ -117,7 +117,7 @@ server.use(express.static('public', {
 			case 'woff':
 			case 'woff2':
 			case 'ttf':
-				res.setHeader('Cache-Control', 'public, max-age=259200'); // 3 days
+				res.setHeader('Cache-Control', 'public, max-age=5184000'); // 60 days
 				break;
 			default:
 				res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day for other types
