@@ -349,6 +349,12 @@
 
         // =============================  Helper Functions  =============================
 
+        // Function to check if a touch device is used
+        function isTouchDevice() {
+            console.log("Checking for Touch device");
+            return 'ontouchstart' in document.documentElement;
+        }
+
         // Function to clear children elements of a DOM element
         function clearChildrenElements(element) {
             while (element.firstChild) {
@@ -500,6 +506,15 @@
 
             if (card_customDropDown.classList.contains('show')) {
                 card_customDropDown.classList.remove('show');
+            }
+
+            map.scrollWheelZoom.disable();
+            if (isTouchDevice()) {
+                console.log("Touch device");
+                // Prevent map from moving when focus is on the card
+                map.dragging.disable();
+                map.touchZoom.disable();
+                map.doubleClickZoom.disable();
             }
 
             // Add the store name 
@@ -840,6 +855,14 @@
         const card_closeBtn = document.getElementById('card_closeBtn');
         card_closeBtn.addEventListener('click', () => {
             card_info.classList.add('d-none');
+
+            map.scrollWheelZoom.enable();
+            if (isTouchDevice()) {
+                // Enable map movement
+                map.dragging.enable();
+                map.touchZoom.enable();
+                map.doubleClickZoom.enable();
+            }
         });
 
         // Event Listener on Stock Toggle
