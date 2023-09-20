@@ -26,8 +26,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-//use of static admin home page assets
-adminRouter.use('/', express.static(path.join( __dirname, 'admin')));
+// Use static admin home page assets with caching for HTML files
+adminRouter.use('/', express.static(path.join(__dirname, 'admin'), {
+  etag: true,
+  setHeaders: (res, path) => {
+    // Set appropriate caching headers for HTML files
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 hour for HTML
+    }
+  },
+}));
 
 /*====================== DB Updates =====================*/
 

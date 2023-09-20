@@ -34,7 +34,7 @@ export let categories = tableInfo('categories', ['*']);
 export function auth(req, res, next) {
 	if (req.session.userId) {
 		// Update the cookie's max age to extend the session validity
-    res.cookie("authToken", req.sessionID, {
+		res.cookie("authToken", req.sessionID, {
 			maxAge: 60000,
 			sameSite: "None",
 			secure: true,
@@ -42,7 +42,7 @@ export function auth(req, res, next) {
 
 		next(); // User is authenticated, continue to the next middleware/route
 	} else {
-    res.status(401).sendFile(path.join(__dirname, 'public', 'login.html'));
+		res.status(401).sendFile(path.join(__dirname, 'public', 'login.html'));
 	}
 }
 
@@ -50,7 +50,7 @@ export function auth(req, res, next) {
 export function adminauth(req, res, next) {
 	if (req.session.userId && req.session.adminpriv) {
 		// Update the cookie's max age to extend the session validity
-    res.cookie("authToken", req.sessionID, {
+		res.cookie("authToken", req.sessionID, {
 			maxAge: 60000,
 			sameSite: "None",
 			secure: false,
@@ -58,7 +58,7 @@ export function adminauth(req, res, next) {
 
 		next(); // User is authenticated, continue to the next middleware/route
 	} else {
-    res.status(401).sendFile(path.join(__dirname, 'public', 'login.html'));
+		res.status(401).sendFile(path.join(__dirname, 'public', 'login.html'));
 	}
 }
 // 1. Consider creating a errorhandler middleware
@@ -95,9 +95,35 @@ server.use(express.json());
 // not been modified the server will respond with a 304 status code and
 // the client will use the cached version of the resource.
 server.use(express.static('public', {
-	dotfiles: 'deny',
-	maxAge: 86400000,	// 1 day in ms
-	etag: true
+	etag: true,
+	setHeaders: (res, path) => {
+		// Extract the file extension
+		const ext = path.split('.').pop().toLowerCase();
+
+		// Define different cache settings based on file type
+		switch (ext) {
+			case 'html':
+			case 'css':
+			case 'js':
+				res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+				break;
+			case 'jpg':
+			case 'jpeg':
+			case 'png':
+			case 'gif':
+			case 'svg':
+				res.setHeader('Cache-Control', 'public, max-age=2592000'); // 30 days
+				break;
+			case 'woff':
+			case 'woff2':
+			case 'ttf':
+				res.setHeader('Cache-Control', 'public, max-age=259200'); // 3 days
+				break;
+			default:
+				res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day for other types
+				break;
+		}
+	},
 }));
 
 // Recommendations about the web caching:
@@ -163,7 +189,7 @@ server.get('/', (req, res) => {
 });
 
 server.use('/api/login', routerLogin);
-server.use('/api/register',routerRegister);
+server.use('/api/register', routerRegister);
 
 server.use('/api/stores', auth, routerStores);
 server.use('/api/categories', auth, routerCategories);
