@@ -134,7 +134,7 @@ routerUsers.get('/likes', async (req, res) => {
     if (likes.success) {
       res.status(200).json(likes);
     } else {
-      res.status(404).json({ message: likes.message });  // Using 404 if no likes found
+      //res.status(404).json({ message: likes.message });  // Using 404 if no likes found
     }
   } catch (error) {
     console.log(error);
@@ -153,7 +153,7 @@ routerUsers.get('/dislikes', async (req, res) => {
       res.status(200).json(result);
     }
     else {
-      res.status(404).json({ message: result.message });
+      //res.status(404).json({ message: result.message });
     }
   }).catch((error) => {
     console.log(error);
@@ -172,7 +172,7 @@ routerUsers.get('/sales-history', async (req, res) => {
       res.status(200).json(result);
     }
     else {
-      res.status(404).json({ message: result.message });
+      //res.status(404).json({ message: result.message });
     }
   }).catch((error) => {
     console.log(error);
