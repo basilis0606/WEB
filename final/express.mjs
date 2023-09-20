@@ -95,9 +95,37 @@ server.use(express.json());
 // not been modified the server will respond with a 304 status code and
 // the client will use the cached version of the resource.
 server.use(express.static('public', {
-	dotfiles: 'deny',
-	maxAge: 86400000,	// 1 day in ms
-	etag: true
+  etag: true,
+  setHeaders: (res, path) => {
+    // Extract the file extension
+    const ext = path.split('.').pop().toLowerCase();
+
+    // Define different cache settings based on file type
+    switch (ext) {
+      case 'html':
+        res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+        break;
+      case 'css':
+      case 'js':
+        res.setHeader('Cache-Control', 'public, max-age=604800'); // 7 days
+        break;
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+      case 'gif':
+      case 'svg':
+        res.setHeader('Cache-Control', 'public, max-age=2592000'); // 30 days
+        break;
+      case 'woff':
+      case 'woff2':
+      case 'ttf':
+        res.setHeader('Cache-Control', 'public, max-age=259200'); // 3 days
+        break;
+      default:
+        res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day for other types
+        break;
+    }
+  },
 }));
 
 // Recommendations about the web caching:

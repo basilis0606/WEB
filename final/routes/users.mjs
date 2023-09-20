@@ -14,7 +14,16 @@ export const __basename = url.fileURLToPath(new URL('..', import.meta.url));
 export const routerUsers = express.Router();
 
 // Serve user-specific files using the express.static middleware
-routerUsers.use('/', express.static(path.join(__basename, 'users')));
+routerUsers.use('/', express.static(path.join(__basename, 'users'), {
+  etag: true,
+  setHeaders: (res, path) => {
+    // Set appropriate caching headers for HTML files
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 hour for HTML
+    }
+  },
+}));
+
 
 routerUsers.get('/username', (req, res) => {
   // get the user id from the session
