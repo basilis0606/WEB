@@ -90,7 +90,7 @@ CREATE TABLE `dislikes` (
   KEY `dislike_by` (`user_disliked`),
   CONSTRAINT `dislike_by` FOREIGN KEY (`user_disliked`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sales_id_for_dislike` FOREIGN KEY (`sales_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8191 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7142 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3177,8 +3177,33 @@ FOR EACH ROW
         SET monthly_score = monthly_score-1,
             sum_score = sum_score-1
         WHERE id = user2update;
-
     END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER after_dislikes_insert 
+AFTER INSERT ON dislikes
+FOR EACH ROW
+BEGIN
+    DECLARE suggester_id INT;
+
+    SELECT user_suggested INTO suggester_id FROM sales WHERE id = NEW.sales_id;
+
+    
+    UPDATE users SET sum_score = GREATEST(0, sum_score - 1), monthly_score = GREATEST(0, monthly_score - 1) WHERE id = suggester_id;
+    INSERT INTO score_log (user_id, score_change, reason) VALUES (suggester_id, -1, 'Received Dislike');
+END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -3200,7 +3225,7 @@ FOR EACH ROW
 
         -- update dislikes number on the sale that was liked by a user
         UPDATE sales 
-        SET dislikes_num = dislikes_num+1
+        SET dislikes_num = dislikes_num-1
         WHERE id = OLD.sales_id;
         
         -- update the score of the user who submitted the sale
@@ -3213,7 +3238,6 @@ FOR EACH ROW
         SET monthly_score = monthly_score + 1,
             sum_score = sum_score + 1
         WHERE id = user2update;
-
     END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -3237,7 +3261,7 @@ CREATE TABLE `likes` (
   KEY `like_by` (`user_liked`),
   CONSTRAINT `like_by` FOREIGN KEY (`user_liked`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `sales_id_for_like` FOREIGN KEY (`sales_id`) REFERENCES `sales` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8191 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8090 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -7252,28 +7276,52 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER sale_likes_update AFTER INSERT ON likes
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER sale_likes_update
+AFTER INSERT ON likes
 FOR EACH ROW
-    BEGIN
-        DECLARE user2update INT UNSIGNED;
+BEGIN
+    DECLARE user2update INT UNSIGNED;
 
-        -- update likes number on the sale that was liked by a user
-        UPDATE sales 
-        SET likes_num = likes_num+1
-        WHERE id = NEW.sales_id;
-        
-        -- update the score of the user who submitted the sale
-        SELECT user_suggested
-        INTO user2update 
-        FROM sales
-        WHERE id = NEW.sales_id;
+    UPDATE sales 
+    SET likes_num = likes_num + 1
+    WHERE id = NEW.sales_id;
+    
+    SELECT user_suggested
+    INTO user2update 
+    FROM sales
+    WHERE id = NEW.sales_id;
 
-        UPDATE users
-        SET monthly_score = monthly_score+5,
-            sum_score = sum_score+5
-        WHERE id = user2update;
+    UPDATE users
+    SET monthly_score = monthly_score + 5,
+        sum_score = sum_score + 5
+    WHERE id = user2update;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER after_likes_insert 
+AFTER INSERT ON likes
+FOR EACH ROW
+BEGIN
+    DECLARE suggester_id INT;
 
-    END */;;
+    SELECT user_suggested INTO suggester_id FROM sales WHERE id = NEW.sales_id;
+
+    
+    UPDATE users SET sum_score = sum_score + 5, monthly_score = monthly_score + 5 WHERE id = suggester_id;
+    INSERT INTO score_log (user_id, score_change, reason) VALUES (suggester_id, 5, 'Received Like');
+END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -7289,24 +7337,24 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'IGNORE_SPACE,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER sale_wdrawlikes_update AFTER DELETE ON likes
-    FOR EACH ROW
-        BEGIN
-            DECLARE user2update INT UNSIGNED;
+FOR EACH ROW
+    BEGIN
+        DECLARE user2update INT UNSIGNED;
 
-            UPDATE sales 
-            SET likes_num = likes_num -1 
-            WHERE id = OLD.sales_id;
+        UPDATE sales 
+        SET likes_num = likes_num -1 
+        WHERE id = OLD.sales_id;
 
-            SELECT user_suggested
-            INTO user2update 
-            FROM sales
-            WHERE id = OLD.sales_id;
+        SELECT user_suggested
+        INTO user2update 
+        FROM sales
+        WHERE id = OLD.sales_id;
 
-            UPDATE users
-            SET monthly_score = monthly_score - 5,
-                sum_score = sum_score - 5
-            WHERE id = user2update;
-        END */;;
+        UPDATE users
+        SET monthly_score = monthly_score - 5,
+            sum_score = sum_score - 5
+        WHERE id = user2update;
+    END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -7332,7 +7380,7 @@ CREATE TABLE `products` (
   KEY `yesterdayavg` (`avgprice_yesterday`) USING BTREE,
   KEY `lastweekavg` (`avgprice_lastweek`) USING BTREE,
   CONSTRAINT `product_in_subcategory` FOREIGN KEY (`subcategories_id`) REFERENCES `subcategories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1271 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12346 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -8611,7 +8659,9 @@ INSERT INTO `products` VALUES
 (1267,'Pedigree Denta Stix Med Σκύλου 180γρ',108,0.00,3.67),
 (1268,'Friskies Σκυλ/Φή Ξηρ Κοτ/Λαχ 1,5κιλ',108,4.21,4.79),
 (1269,'Pedigree Σκυλ/Φή Μοσχάρι 400γρ',108,0.00,6.25),
-(1270,'Pedigree Schmackos Μπισκότα Σκύλου 43γρ',108,0.00,0.00);
+(1270,'Pedigree Schmackos Μπισκότα Σκύλου 43γρ',108,0.00,0.00),
+(3221,'product2updated',33,0.00,0.00),
+(12345,'product1updated',15,0.00,0.00);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -11089,7 +11139,6 @@ FOR EACH ROW
             WHERE id = NEW.user_suggested;
             SET NEW.criteria_ok =1;
         END IF;
-
     END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -11107,11 +11156,59 @@ DELIMITER ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER update_storeSales AFTER INSERT ON sales
 FOR EACH ROW
-	BEGIN
-		UPDATE stores
-		SET sale_exists = sale_exists +1
-		WHERE id = NEW.store_id; 
-	END */;;
+BEGIN
+	UPDATE stores
+	SET sale_exists = sale_exists +1
+    WHERE id = NEW.store_id; 
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER after_sales_insert 
+AFTER INSERT ON sales
+FOR EACH ROW
+BEGIN
+    DECLARE avg_price_day DECIMAL(4,2);
+    DECLARE avg_price_week DECIMAL(4,2);
+
+    
+    SELECT avgprice_yesterday, avgprice_lastweek 
+    INTO avg_price_day, avg_price_week 
+    FROM products 
+    WHERE id = NEW.product_id;
+
+    IF NEW.price <= 0.8 * avg_price_day THEN
+        UPDATE users 
+        SET sum_score = sum_score + 50, monthly_score = monthly_score + 50 
+        WHERE id = NEW.user_suggested;
+
+        INSERT INTO score_log (user_id, score_change, reason) 
+        VALUES (NEW.user_suggested, 50, 'Better price than yesterday');
+
+    ELSEIF NEW.price <= 0.8 * avg_price_week THEN
+        UPDATE users 
+        SET sum_score = sum_score + 20, monthly_score = monthly_score + 20 
+        WHERE id = NEW.user_suggested;
+
+        INSERT INTO score_log (user_id, score_change, reason) 
+        VALUES (NEW.user_suggested, 20, 'Better price than last week');
+    ELSE 
+        INSERT INTO score_log (user_id, score_change, reason) 
+        VALUES (NEW.user_suggested, 0, 'No reward');
+
+    END IF;
+END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -11144,95 +11241,95 @@ CREATE TABLE `stores` (
 LOCK TABLES `stores` WRITE;
 /*!40000 ALTER TABLE `stores` DISABLE KEYS */;
 INSERT INTO `stores` VALUES
-(1,1,38.2080307,21.7126541,'Lidl'),
-(2,1,38.2893105,21.7806568,'The Mart'),
-(3,1,38.2633514,21.7434273,'Lidl'),
-(4,1,38.2952080,21.7908020,'Σουπερμάρκετ Ανδρικόπουλος'),
-(5,1,38.2104378,21.7642078,'Σκλαβενίτης'),
-(6,1,38.2355309,21.7622776,'Papakos'),
-(7,1,38.2612915,21.7540245,NULL),
-(8,1,38.2312927,21.7400818,'Lidl'),
-(9,1,38.3013077,21.7814960,'Κρόνος'),
-(10,1,38.2949371,21.7903824,NULL),
-(11,1,38.2852364,21.7666721,NULL),
-(12,1,38.2911110,21.7714539,NULL),
-(13,1,38.2913322,21.7666073,NULL),
-(14,1,38.2779121,21.7625465,NULL),
-(15,1,38.2751617,21.7574024,NULL),
-(16,1,38.2756958,21.7629166,NULL),
-(17,1,38.2596474,21.7489662,'Σκλαβενίτης'),
-(18,1,38.2945023,21.7883129,NULL),
-(19,1,38.2126465,21.7568741,NULL),
-(20,1,38.2613792,21.7436123,'Ρουμελιώτης SUPER Market'),
-(21,1,38.2585220,21.7415829,'Σκλαβενίτης'),
-(22,1,38.2991371,21.7854996,NULL),
-(23,1,38.2915421,21.7712803,NULL),
-(24,1,38.2323875,21.7473259,'My market'),
-(25,1,38.2322388,21.7257290,'ΑΒ Βασιλόπουλος'),
-(26,1,38.2644958,21.7603626,'Markoulas'),
-(27,1,38.2657852,21.7593250,NULL),
-(28,1,38.3067551,21.8051338,'Lidl'),
-(29,1,38.2399864,21.7363701,'Ανδρικόπουλος'),
-(30,1,38.2377129,21.7399006,NULL),
-(31,1,38.2364960,21.7373409,'Σκλαβενίτης'),
-(32,1,38.2427063,21.7342358,'My Market'),
-(33,1,38.2803802,21.7689400,NULL),
-(34,1,38.2767372,21.7646313,NULL),
-(35,1,38.2568626,21.7396717,'My market'),
-(36,1,38.1951981,21.7323284,'Ανδρικόπουλος'),
-(37,1,38.2565575,21.7418499,'ΑΒ ΒΑΣΙΛΟΠΟΥΛΟΣ'),
-(38,1,38.2450104,21.7365284,NULL),
-(39,1,38.2434845,21.7332859,'Σκλαβενίτης'),
-(40,1,38.2438240,21.7339554,NULL),
-(41,1,38.2524300,21.7414227,NULL),
-(42,1,38.2512741,21.7423916,NULL),
-(43,1,38.2427979,21.7302551,'Ανδρικόπουλος'),
-(44,1,38.2454109,21.7337189,NULL),
-(45,1,38.2725792,21.8365002,'Mini Market'),
-(46,1,38.2795372,21.7667141,'Carna'),
-(47,1,38.3052406,21.7770004,'Mini Market'),
-(48,1,38.2425804,21.7296429,'Kronos'),
-(49,1,38.2585640,21.7504673,'Φίλιππας'),
-(50,1,38.3015022,21.7940998,NULL),
-(51,1,38.2498055,21.7363358,'No supermarket'),
-(52,1,38.2490845,21.7351284,'Kiosk'),
-(53,1,38.2493172,21.7349110,'Kiosk'),
-(54,1,38.2489548,21.7344418,'Kiosk'),
-(55,1,38.2569885,21.7413063,'Kiosk'),
-(56,1,38.2561417,21.7409534,'Kiosk'),
-(57,1,38.2523689,21.7400703,NULL),
-(58,1,38.2691956,21.7481499,'Ανδρικόπουλος - Supermarket'),
-(59,1,38.2690964,21.7497005,'Σκλαβενίτης'),
-(60,1,38.2338257,21.7251663,NULL),
-(61,1,38.3277397,21.8764229,'Mini Market'),
-(62,1,38.2170944,21.7357788,'ΑΒ Βασιλόπουλος'),
-(63,1,38.2160263,21.7321205,'Mini Market'),
-(64,1,38.3127403,21.8203449,NULL),
-(65,1,38.2451859,21.7312412,NULL),
-(66,1,38.2504501,21.7396679,'3A'),
-(67,1,38.2486305,21.7389774,'Spar'),
-(68,1,38.2481537,21.7383232,'ΑΝΔΡΙΚΟΠΟΥΛΟΣ'),
-(69,1,38.2429466,21.7308044,'ΑΝΔΡΙΚΟΠΟΥΛΟΣ'),
-(70,1,38.2392845,21.7265282,'MyMarket'),
-(71,1,38.2653351,21.7575340,NULL),
-(72,1,38.2346611,21.7253475,'Ena Cash And Carry'),
-(73,1,38.2358017,21.7294922,'ΚΡΟΝΟΣ - (Σκαγιοπουλείου)'),
-(74,1,38.2379189,21.7306404,'Ανδρικόπουλος Super Market'),
-(75,1,38.2375069,21.7328987,'3Α Αράπης'),
-(76,1,38.2361145,21.7337875,'Γαλαξίας'),
-(77,1,38.2360115,21.7283115,'Super Market Θεοδωρόπουλος'),
-(78,1,38.2390442,21.7340717,'Super Market ΚΡΟΝΟΣ'),
-(79,1,38.2642288,21.7396851,NULL),
-(80,1,38.2658234,21.7398815,NULL),
-(81,1,38.2601814,21.7428703,'Σκλαβενίτης'),
-(82,1,38.2586441,21.7460079,'3A ARAPIS'),
-(83,1,38.2454681,21.7355061,'Μασούτης'),
-(84,1,38.2495689,21.7380295,'ΑΒ Shop & Go'),
-(85,1,38.2398796,21.7455559,'3Α ΑΡΑΠΗΣ'),
-(86,1,38.2554436,21.7408752,'Περίπτερο'),
-(87,1,38.1494217,21.6232204,NULL),
-(88,1,38.1477394,21.6206284,NULL),
-(89,1,38.1563072,21.6454792,NULL);
+(1,13,38.2080307,21.7126541,'Lidl'),
+(2,30,38.2893105,21.7806568,'The Mart'),
+(3,19,38.2633514,21.7434273,'Lidl'),
+(4,21,38.2952080,21.7908020,'Σουπερμάρκετ Ανδρικόπουλος'),
+(5,32,38.2104378,21.7642078,'Σκλαβενίτης'),
+(6,31,38.2355309,21.7622776,'Papakos'),
+(7,22,38.2612915,21.7540245,NULL),
+(8,34,38.2312927,21.7400818,'Lidl'),
+(9,36,38.3013077,21.7814960,'Κρόνος'),
+(10,21,38.2949371,21.7903824,NULL),
+(11,28,38.2852364,21.7666721,NULL),
+(12,21,38.2911110,21.7714539,NULL),
+(13,20,38.2913322,21.7666073,NULL),
+(14,25,38.2779121,21.7625465,NULL),
+(15,38,38.2751617,21.7574024,NULL),
+(16,28,38.2756958,21.7629166,NULL),
+(17,30,38.2596474,21.7489662,'Σκλαβενίτης'),
+(18,30,38.2945023,21.7883129,NULL),
+(19,24,38.2126465,21.7568741,NULL),
+(20,41,38.2613792,21.7436123,'Ρουμελιώτης SUPER Market'),
+(21,32,38.2585220,21.7415829,'Σκλαβενίτης'),
+(22,30,38.2991371,21.7854996,NULL),
+(23,35,38.2915421,21.7712803,NULL),
+(24,22,38.2323875,21.7473259,'My market'),
+(25,30,38.2322388,21.7257290,'ΑΒ Βασιλόπουλος'),
+(26,35,38.2644958,21.7603626,'Markoulas'),
+(27,30,38.2657852,21.7593250,NULL),
+(28,32,38.3067551,21.8051338,'Lidl'),
+(29,19,38.2399864,21.7363701,'Ανδρικόπουλος'),
+(30,20,38.2377129,21.7399006,NULL),
+(31,32,38.2364960,21.7373409,'Σκλαβενίτης'),
+(32,23,38.2427063,21.7342358,'My Market'),
+(33,24,38.2803802,21.7689400,NULL),
+(34,20,38.2767372,21.7646313,NULL),
+(35,32,38.2568626,21.7396717,'My market'),
+(36,26,38.1951981,21.7323284,'Ανδρικόπουλος'),
+(37,25,38.2565575,21.7418499,'ΑΒ ΒΑΣΙΛΟΠΟΥΛΟΣ'),
+(38,30,38.2450104,21.7365284,NULL),
+(39,28,38.2434845,21.7332859,'Σκλαβενίτης'),
+(40,31,38.2438240,21.7339554,NULL),
+(41,35,38.2524300,21.7414227,NULL),
+(42,20,38.2512741,21.7423916,NULL),
+(43,26,38.2427979,21.7302551,'Ανδρικόπουλος'),
+(44,25,38.2454109,21.7337189,NULL),
+(45,30,38.2725792,21.8365002,'Mini Market'),
+(46,25,38.2795372,21.7667141,'Carna'),
+(47,32,38.3052406,21.7770004,'Mini Market'),
+(48,28,38.2425804,21.7296429,'Kronos'),
+(49,32,38.2585640,21.7504673,'Φίλιππας'),
+(50,28,38.3015022,21.7940998,NULL),
+(51,30,38.2498055,21.7363358,'No supermarket'),
+(52,27,38.2490845,21.7351284,'Kiosk'),
+(53,30,38.2493172,21.7349110,'Kiosk'),
+(54,24,38.2489548,21.7344418,'Kiosk'),
+(55,27,38.2569885,21.7413063,'Kiosk'),
+(56,33,38.2561417,21.7409534,'Kiosk'),
+(57,24,38.2523689,21.7400703,NULL),
+(58,27,38.2691956,21.7481499,'Ανδρικόπουλος - Supermarket'),
+(59,23,38.2690964,21.7497005,'Σκλαβενίτης'),
+(60,32,38.2338257,21.7251663,NULL),
+(61,31,38.3277397,21.8764229,'Mini Market'),
+(62,22,38.2170944,21.7357788,'ΑΒ Βασιλόπουλος'),
+(63,25,38.2160263,21.7321205,'Mini Market'),
+(64,36,38.3127403,21.8203449,NULL),
+(65,20,38.2451859,21.7312412,NULL),
+(66,21,38.2504501,21.7396679,'3A'),
+(67,31,38.2486305,21.7389774,'Spar'),
+(68,29,38.2481537,21.7383232,'ΑΝΔΡΙΚΟΠΟΥΛΟΣ'),
+(69,29,38.2429466,21.7308044,'ΑΝΔΡΙΚΟΠΟΥΛΟΣ'),
+(70,26,38.2392845,21.7265282,'MyMarket'),
+(71,21,38.2653351,21.7575340,NULL),
+(72,31,38.2346611,21.7253475,'Ena Cash And Carry'),
+(73,22,38.2358017,21.7294922,'ΚΡΟΝΟΣ - (Σκαγιοπουλείου)'),
+(74,37,38.2379189,21.7306404,'Ανδρικόπουλος Super Market'),
+(75,28,38.2375069,21.7328987,'3Α Αράπης'),
+(76,14,38.2361145,21.7337875,'Γαλαξίας'),
+(77,28,38.2360115,21.7283115,'Super Market Θεοδωρόπουλος'),
+(78,14,38.2390442,21.7340717,'Super Market ΚΡΟΝΟΣ'),
+(79,27,38.2642288,21.7396851,NULL),
+(80,21,38.2658234,21.7398815,NULL),
+(81,25,38.2601814,21.7428703,'Σκλαβενίτης'),
+(82,35,38.2586441,21.7460079,'3A ARAPIS'),
+(83,20,38.2454681,21.7355061,'Μασούτης'),
+(84,26,38.2495689,21.7380295,'ΑΒ Shop & Go'),
+(85,34,38.2398796,21.7455559,'3Α ΑΡΑΠΗΣ'),
+(86,33,38.2554436,21.7408752,'Περίπτερο'),
+(87,23,38.1494217,21.6232204,NULL),
+(88,23,38.1477394,21.6206284,NULL),
+(89,10,38.1563072,21.6454792,NULL);
 /*!40000 ALTER TABLE `stores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -11465,4 +11562,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-15 14:54:52
+-- Dump completed on 2023-09-20 16:49:32
