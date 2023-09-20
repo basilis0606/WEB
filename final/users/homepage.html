@@ -479,6 +479,8 @@
         const card_addSaleDropdownDiv = document.getElementById('card_addSaleDropdownDiv');
         const card_backBtn = document.getElementById('card_backBtn');
 
+        const card_customDropDown = document.getElementById('card_customDropDown');
+
         // Function to display the store info 
         function displayStoreInfoInCard(storeInfo, storeSales) {
 
@@ -495,6 +497,10 @@
             // Hide everything else 
             card_backBtn.classList.add('d-none');
             card_detailedSale.classList.add('d-none');
+
+            if (card_customDropDown.classList.contains('show')) {
+                card_customDropDown.classList.remove('show');
+            }
 
             // Add the store name 
             const storeName = (storeInfo.properties.name || 'Unknown');
@@ -1060,7 +1066,6 @@
         // =================== Add Sale Offer ===================
 
         // Access needed DOM elements:
-        const card_customDropDown = document.getElementById('card_customDropDown');
         const card_addSaleDropdownItems = document.getElementById('card_addSaleDropdownItems');
         const card_addSalePriceForm = document.getElementById('card_addSalePriceForm');
         const card_addSalePriceInput = document.getElementById('card_addSalePriceInput');
