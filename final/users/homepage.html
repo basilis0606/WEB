@@ -349,6 +349,11 @@
 
         // =============================  Helper Functions  =============================
 
+        // Function to check if a touch device is used
+        function isTouchDevice() {
+            return 'ontouchstart' in document.documentElement;
+        }
+
         // Function to clear children elements of a DOM element
         function clearChildrenElements(element) {
             while (element.firstChild) {
@@ -479,6 +484,8 @@
         const card_addSaleDropdownDiv = document.getElementById('card_addSaleDropdownDiv');
         const card_backBtn = document.getElementById('card_backBtn');
 
+        const card_customDropDown = document.getElementById('card_customDropDown');
+
         // Function to display the store info 
         function displayStoreInfoInCard(storeInfo, storeSales) {
 
@@ -495,6 +502,19 @@
             // Hide everything else 
             card_backBtn.classList.add('d-none');
             card_detailedSale.classList.add('d-none');
+
+            if (card_customDropDown.classList.contains('show')) {
+                card_customDropDown.classList.remove('show');
+            }
+
+            map.scrollWheelZoom.disable();
+            if (isTouchDevice()) {
+                console.log("Touch device");
+                // Prevent map from moving when focus is on the card
+                map.dragging.disable();
+                map.touchZoom.disable();
+                map.doubleClickZoom.disable();
+            }
 
             // Add the store name 
             const storeName = (storeInfo.properties.name || 'Unknown');
@@ -834,6 +854,14 @@
         const card_closeBtn = document.getElementById('card_closeBtn');
         card_closeBtn.addEventListener('click', () => {
             card_info.classList.add('d-none');
+
+            map.scrollWheelZoom.enable();
+            if (isTouchDevice()) {
+                // Enable map movement
+                map.dragging.enable();
+                map.touchZoom.enable();
+                map.doubleClickZoom.enable();
+            }
         });
 
         // Event Listener on Stock Toggle
@@ -1060,7 +1088,6 @@
         // =================== Add Sale Offer ===================
 
         // Access needed DOM elements:
-        const card_customDropDown = document.getElementById('card_customDropDown');
         const card_addSaleDropdownItems = document.getElementById('card_addSaleDropdownItems');
         const card_addSalePriceForm = document.getElementById('card_addSalePriceForm');
         const card_addSalePriceInput = document.getElementById('card_addSalePriceInput');
