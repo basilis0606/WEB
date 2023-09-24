@@ -678,7 +678,7 @@
 
             if (!sale.liked) {
                 // Use the custom fetchAPI function to add a like
-                fetchAPI(`/api/sales/${id}/like`, 'POST', {})
+                fetchAPI(`/api/sales/${id}/like`, "POST", {})
                     .then((data) => {
                         if (data.success) {
                             // Update the sale object

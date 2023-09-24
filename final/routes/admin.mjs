@@ -93,11 +93,7 @@ function updateCategory(category){
         }else{
             //category exists, update it
             try{
-                let cat2up = mariadb.paramQuery('UPDATE categories SET name=?;', category.name);
-                cat2up.then(async() => {
-                    await mariadb.commit();
-                })
-                
+                let cat2up = mariadb.paramQuery('UPDATE categories SET name=? WHERE id=?;', [category.name, category.id]);               
                 updateSubcategories(category); 
             }catch(sqlError){
                 console.log('Error while updating DB: ', sqlError);
@@ -111,7 +107,7 @@ function updateSubcategories(category){
         //get subcategory id
         let cursbc_id = mariadb.paramQuery('SELECT id FROM subcategories WHERE id=?;', sbc.uuid);
         cursbc_id.then((result) => {
-            if (Object.keys(result) === 0){
+            if (Object.keys(result).length === 0){
                 //subcategory non-existent, insert
                 try{
                     let sbc2ins = mariadb.paramQuery('INSERT INTO subcategories VALUES(?,?,?);', [sbc.uuid, category.id, sbc.name]);
@@ -139,7 +135,7 @@ function updateStore(store){
         if (Object.keys(result).length === 0){
             //store does not exist, insert 
             try {
-                let store2ins = mariadb.paramQuery('INSERT INTO stores VALUES (?,?,?);', [store.id, 0, store.name]);
+                let store2ins = mariadb.paramQuery('INSERT INTO stores VALUES (?,?,?,?,?);', [store.id, 0, store.lat, store.lon, store.name]);
                 store2ins.then(async() => await mariadb.commit());
             }catch(sqlError){
                 console.log('Error while inserting to DB: ', sqlError);
@@ -148,7 +144,7 @@ function updateStore(store){
         }else{
             //store exists, update
             try {
-                let store2up = mariadb.paramQuery('UPDATE stores SET name=?;', store.name);
+                let store2up = mariadb.paramQuery('UPDATE stores SET name=? WHERE id=?;', [store.name, store.id]);
                 store2up.then(async() => await mariadb.commit());
             }catch(sqlError){
                 console.log('Error while inserting to DB: ', sqlError);
@@ -200,7 +196,7 @@ adminRouter.post('/uploadprods', upload.single('file'), (req, res) => {
             //parse data to a JSON object
             const jsonData = JSON.parse(data); 
             //execute updates
-            if (req.file.filename !== "prices.json"){
+            if (req.file.filename !== "testprices.json"){
                 jsonData.products.forEach(product => {
                     updateProduct(product);
                 })
@@ -241,7 +237,6 @@ adminRouter.post('/uploadcats', upload.single('file'), (req, res) => {
             await mariadb.commit();
             //reload page to update table (all data is refetched from db)
             res.redirect('/admin/admin_main.html');
-            res.send('File uploaded and database updated successfully!');
         }catch (err) {
             console.error('Error while json to DB:', err);
             return res.status(400).send('Internal Server Error.');

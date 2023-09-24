@@ -285,7 +285,7 @@ export async function likeSale(saleId, userId) {
 		}
 
 		// Insert the like
-		const insertLikeQuery = `INSERT INTO likes (sales_id, user_liked ) VALUES (?, ?);`;
+		const insertLikeQuery = `INSERT INTO likes(sales_id, user_liked) VALUES (?,?);`;
 		await mariadb.paramQuery(insertLikeQuery, [saleId, userId]);
 
 		// Updating the likes_num is done with a trigger
