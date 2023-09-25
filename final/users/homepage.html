@@ -1212,7 +1212,7 @@
                     console.log('Sale added successfully');
                     // Display a success message to the user
                     alert('Sale added successfully');
-                } else {
+                } else if ( response.message === 'Failed to add sale') {
                     // Sale was not added (e.g., price not low enough)
                     console.error('Failed to add sale');
                     // Display an error message to the user
