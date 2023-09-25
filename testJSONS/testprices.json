@@ -1,0 +1,16 @@
+{
+    "prices": [
+        {
+            "id":12345,
+            "avgprice_yesterday": 1.05
+        },
+        {
+            "id":3221,
+            "avgprice_yesterday": 3.26
+        },
+        {
+            "id":10,
+            "avgprice_yesterday": 1.20
+        }
+    ]
+}

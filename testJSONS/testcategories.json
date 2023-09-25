@@ -1,0 +1,28 @@
+{
+    "categories": [
+        {
+            "id": 8,
+            "name": "Για κατοικίδια updated",
+            "subcategories": [
+                {
+                    "uuid": 108,
+                    "name": "Pet Shop/Τροφή σκύλου updated"
+                },
+                {
+                    "uuid": 109,
+                    "name": "Pet Shop/Τροφή για ψάρια"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "name": "test category",
+            "subcategories": [
+                {
+                    "uuid": 110,
+                    "name":"test subcategory"
+                }
+            ]
+        }
+    ]
+}
