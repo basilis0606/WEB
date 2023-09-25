@@ -32,7 +32,7 @@ routerSales.post('/submit', async (req, res) => {
     if (result.success) {
       res.status(200).json({ message: 'Sale added successfully' });
     } else {
-      res.status(400).json({ message: 'Failed to add sale' });
+      res.status(200).json({ message: 'Failed to add sale' });
     }
   } catch (error) {
     console.error('Error in /submit:', error);
