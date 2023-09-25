@@ -60,6 +60,7 @@ Initialize the database with the information of e-katanalotis.gr & random data:
   ```
   UPDATE sales SET active = 1;
   call daily_sequence();
+  call DistributeTokens();
   ```
 
 #### Executing the project

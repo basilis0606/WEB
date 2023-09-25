@@ -157,7 +157,7 @@ def insert_single_sale(conn, cur, sale, likes, dislikes):
 def main():
     # Create the database connection
     conn = establish_localhost_mariadb_connection(
-        "sfikas", "sfikas", "localhost", "web_testing")
+        "root", "maria", "localhost", "web_2023")
     cur = conn.cursor()
 
     users = False
